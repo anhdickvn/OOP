@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class ThongKeThangBanSach {
+class ThongKeThangBanSach {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
@@ -27,3 +27,4 @@ public class ThongKeThangBanSach {
         sc.close();
     }
 }
+
