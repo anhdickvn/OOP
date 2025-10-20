@@ -55,6 +55,53 @@ public class KhoSach {
 			ds[i].xuat();
 		}
 	}
+	public void ThemSach(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Nhap so sach muon them: ");
+        int sosachThem = sc.nextInt();
+        Sach[] dsMoi = Arrays.copyOf(ds, ds.length + sosachThem);
+
+        for(int i = ds.length; i < soLuongSachKho;i++){
+            System.out.println("Sach moi thu: "+(i+1));
+            dsMoi[i] = new Sach();
+            dsMoi[i].nhap();
+        }
+    }
+    public void SuaSach(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Nhap ID sach can sua: ");
+        String idSach = sc.nextLine();
+        for(int i = 0; i < soLuongSachKho;i++){
+            if(ds[i].getIdSach().equals(idSach)){
+                System.out.println("Thong tin hien tai: ");
+                ds[i].xuat();
+                System.out.println("Thong tin moi: ");
+                ds[i].nhap();
+                return;
+            }
+        }
+        System.out.println("Khong tim thay ID sach");
+    }
+    public void xoaSach(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Nhap ma sach can xoa: ");
+        String ID = sc.nextLine();
+        
+        for(int i = 0; i < soLuongSachKho;i++){
+                if(ds[i].getIdSach().equals(ID)){
+                    for(int j = i;j < soLuongSachKho-1;j++){
+                        ds[j] = ds[j+1];
+                    }
+                    soLuongSachKho--;
+            System.out.println("Da xoa sach co ID: "+ID);
+            xuatDS();
+            return;
+            }
+        }   
+        System.out.println("Khong tim thay sach co ID: "+ID);
+        xuatDS();
+    }    
+
 }
 
  class ThongKeHoaDon {
