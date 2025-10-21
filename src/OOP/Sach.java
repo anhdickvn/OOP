@@ -23,6 +23,14 @@ public class Sach {
 		this.tacGia = tacGia;
 	}
 
+	 public String getIdTheLoai() {
+		return idTheLoai;
+	}
+
+	public void setIdTheLoai(String idTheLoai) {
+		this.idTheLoai = idTheLoai;
+	}
+
 	public TheLoai[] getTheLoai() {
 		return theLoai;
 	}
