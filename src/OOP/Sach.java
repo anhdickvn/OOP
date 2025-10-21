@@ -1,11 +1,6 @@
 package OOP;
-
-import java.util.Scanner;
-
-public class Sach {
+class Sach {
 	private String idSach;
-	private String idTacGia;
-	private String idTheLoai;
 	private String idNhaXuatBan;
 	private TacGia[] tacGia;
 	private TheLoai[] theLoai;
@@ -23,14 +18,6 @@ public class Sach {
 		this.tacGia = tacGia;
 	}
 
-	 public String getIdTheLoai() {
-		return idTheLoai;
-	}
-
-	public void setIdTheLoai(String idTheLoai) {
-		this.idTheLoai = idTheLoai;
-	}
-
 	public TheLoai[] getTheLoai() {
 		return theLoai;
 	}
@@ -45,6 +32,12 @@ public class Sach {
 
 	public void setIdSach(String idSach) {
 		this.idSach = idSach;
+	}
+	public void setIDNXB(String idNhaXuatBan){
+		this.idNhaXuatBan = idNhaXuatBan;
+	}
+	public String getIDNXB(){
+		return idNhaXuatBan;
 	}
 
 	public String getTenSach() {
@@ -90,12 +83,9 @@ public class Sach {
 	public Sach() {
 	}
 
-	public Sach(String idSach, String tenSach, String idTacGia, String idTheLoai, String idNhaXuatBan, double gia,
-			int namXuatBan, int soLuong) {
+	public Sach(String idSach, String tenSach, String idTacGia, String idTheLoai, String idNhaXuatBan, double gia,int namXuatBan, int soLuong) {
 		this.idSach = idSach;
 		this.tenSach = tenSach;
-		this.idTacGia = idTacGia;
-		this.idTheLoai = idTheLoai;
 		this.idNhaXuatBan = idNhaXuatBan;
 		this.gia = gia;
 		this.namXuatBan = namXuatBan;
@@ -110,13 +100,7 @@ public class Sach {
 		System.out.print("Nhập tên sách: ");
 		tenSach = sc.nextLine();
 
-		System.out.print("Nhập ID tác giả: ");
-		idTacGia = sc.nextLine();
-
-		System.out.print("Nhập ID thể loại: ");
-		idTheLoai = sc.nextLine();
-
-		System.out.print("Nhập ID nhà xuất bản: ");
+		System.out.print("Nhap ID NXB: ");
 		idNhaXuatBan = sc.nextLine();
 
 		System.out.print("Nhập năm xuất bản: ");
@@ -130,8 +114,7 @@ public class Sach {
 	}
 
 	public void xuat() {
-		System.out.printf("%-10s %-25s %-15s %-15s %-15s %-10d %-10d %-15.2f %-15.2f\n", idSach, tenSach, idTacGia,
-				idTheLoai, idNhaXuatBan, namXuatBan, soLuong, gia, tinhTienSauThue());
+		System.out.printf("%-10s %-25s %-10d %-10d %-10d %-15.2f %-15.2f\n", idSach, tenSach,idNhaXuatBan, namXuatBan, soLuong, gia, tinhTienSauThue());
 	}
 
 	public double tinhTienSauThue() {
