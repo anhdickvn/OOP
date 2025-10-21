@@ -1,19 +1,19 @@
 package OOP;
-
 import java.util.Scanner;
-
-public class KhachHangVIP extends KhachHang {
+class KhachHangVIP extends KhachHang {
 	private double mucGiamGia;
+	private double tongTienMua;
 	private int diemTichLuy;
 
 	public KhachHangVIP() {
 	}
 
 	public KhachHangVIP(String hoTen, String maDinhDanh, String ngaySinh, String diaChi, String soDienThoai,
-			String idKhachHang, double mucGiamGia, int diemTichLuy) {
+			String idKhachHang, double mucGiamGia, int diemTichLuy, double tongTienMua) {
 		super(hoTen, maDinhDanh, ngaySinh, diaChi, soDienThoai, idKhachHang);
 		this.mucGiamGia = mucGiamGia;
 		this.diemTichLuy = diemTichLuy;
+		this.diemTichLuy = (int)(tongTienMua/1000);
 	}
 
 	public double getMucGiamGia() {
@@ -31,22 +31,33 @@ public class KhachHangVIP extends KhachHang {
 	public void setDiemTichLuy(int diemTichLuy) {
 		this.diemTichLuy = diemTichLuy;
 	}
+	public double getTongTienMua(){
+		return tongTienMua;
+	}
+	public void setTongTienMua(double tongTienMua) {
+		this.tongTienMua=tongTienMua;
+		this.diemTichLuy=(int)(tongTienMua/1000);
+
+	}
 
 	@Override
 	public void nhapThongTin() {
 		super.nhapThongTin();
 		Scanner sc = new Scanner(System.in);
-		System.out.print("Nhap muc giam gia (%): ");
+		System.out.print("Nhap tong so tien da mua (VND):");
+		tongTienMua=sc.nextDouble();
+		System.out.println("Nhap muc giam gia");
 		mucGiamGia = sc.nextDouble();
-		System.out.print("Nhap diem tich luy: ");
-		diemTichLuy = sc.nextInt();
+		diemTichLuy=(int)(tongTienMua/1000);
+
 	}
 
 	@Override
-	public void hienThiThongTin() {
-		System.out.println("=== Khach Hang VIP ===");
-		super.hienThiThongTin();
-		System.out.println("Muc giam gia: " + mucGiamGia + "%");
-		System.out.println("Diem tich luy: " + diemTichLuy);
-	}
+    public void hienThiThongTin() {
+        System.out.println("\n=== Khach Hang VIP ===");
+        super.hienThiThongTin();
+        System.out.println("Tong tien da mua: " + tongTienMua + " VND");
+        System.out.println("Diem tich luy: " + diemTichLuy);
+        System.out.println("Muc giam gia hien tai: " + mucGiamGia + "%");
+    }
 }
