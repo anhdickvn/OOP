@@ -106,7 +106,6 @@ class KhoSach {
 
     for (Sach s : ds) {
         for (TheLoai tl : s.getTheLoai()) {
-            // tìm gần đúng theo id hoặc tên thể loại (bỏ qua hoa thường)
             if (tl.getTenTheLoai().toLowerCase().contains(tuKhoa) || tl.getIdTheLoai().toLowerCase().contains(tuKhoa)) {
 
                 System.out.println("Tìm thấy: " + s.getTenSach());
@@ -121,7 +120,7 @@ class KhoSach {
                     System.out.println("   - " + tl2.getTenTheLoai() + " (ID: " + tl2.getIdTheLoai() + ")");
                 }
                 timThay = true;
-                break; // sách này đã khớp, không cần kiểm tra thêm thể loại khác
+                break; 
             }
         }
     }
@@ -211,35 +210,7 @@ class KhoSach {
     }
 }
 
-public void thongKeSachTheoTheLoai() {
-    if (ds == null || soLuongSachKho == 0) {
-        System.out.println("Chưa có dữ liệu sách trong kho!");
-        return;
-    }
 
-    Scanner sc = new Scanner(System.in);
-    System.out.print("Nhập ID Thể Loại cần thống kê: ");
-    String idTL = sc.nextLine();
-
-    boolean timThay = false;
-    System.out.println("\n=== DANH SÁCH SÁCH THUỘC THỂ LOẠI: " + idTL + " ===");
-    System.out.printf("%-10s %-25s %-15s %-15s %-15s %-10s %-10s %-15s %-15s\n",
-            "ID Sách", "Tên Sách", "ID Tác Giả", "ID Thể Loại", "ID NXB",
-            "Năm XB", "Số Lượng", "Giá Gốc", "Giá Sau Thuế");
-    System.out.println(
-            "---------------------------------------------------------------------------------------------------------------");
-
-    for (int i = 0; i < soLuongSachKho; i++) {
-        if (ds[i].getIdTheLoai().equalsIgnoreCase(idTL)) {
-            ds[i].xuat();
-            timThay = true;
-        }
-    }
-
-    if (!timThay) {
-        System.out.println("Không tìm thấy sách nào thuộc thể loại này!");
-    }
-}
 
 public void thongKeSachTheoSoLuongGiamDan() {
     if (ds == null || soLuongSachKho == 0) {
@@ -256,7 +227,6 @@ public void thongKeSachTheoSoLuongGiamDan() {
             }
         }
     }
-
     System.out.println("=== THONG KE SACH THEO SO LUONG GIAM DAN ===");
     for (int i = 0; i < soLuongSachKho; i++) {
         System.out.println("Sach thu " + (i + 1) + ":");
