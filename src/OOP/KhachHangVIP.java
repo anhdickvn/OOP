@@ -1,5 +1,4 @@
 package OOP;
-import java.util.Scanner;
 class KhachHangVIP extends KhachHang {
 	private double mucGiamGia;
 	private double tongTienMua;
@@ -13,7 +12,6 @@ class KhachHangVIP extends KhachHang {
 		super(hoTen, maDinhDanh, ngaySinh, diaChi, soDienThoai, idKhachHang);
 		this.mucGiamGia = mucGiamGia;
 		this.diemTichLuy = diemTichLuy;
-		this.diemTichLuy = (int)(tongTienMua/1000);
 	}
 
 	public double getMucGiamGia() {
@@ -36,20 +34,22 @@ class KhachHangVIP extends KhachHang {
 	}
 	public void setTongTienMua(double tongTienMua) {
 		this.tongTienMua=tongTienMua;
-		this.diemTichLuy=(int)(tongTienMua/1000);
 
 	}
-
+  // if diem tich luy >100  muc gia 15% 
+  // if diem tich luy >0 && <=50 muc giam gia 5%
+  // if diem tich luy >50&&<=100 muc giam gia 10%
 	@Override
 	public void nhapThongTin() {
 		super.nhapThongTin();
 		Scanner sc = new Scanner(System.in);
 		System.out.print("Nhap tong so tien da mua (VND):");
 		tongTienMua=sc.nextDouble();
-		System.out.println("Nhap muc giam gia");
-		mucGiamGia = sc.nextDouble();
 		diemTichLuy=(int)(tongTienMua/1000);
-
+		if (diemTichLuy>100) mucGiamGia=15;
+		else if(diemTichLuy > 0 && diemTichLuy <= 50) mucGiamGia=5;
+		else if(diemTichLuy >50 && diemTichLuy <=100) mucGiamGia=10;
+		else mucGiamGia = 0;
 	}
 
 	@Override
