@@ -46,10 +46,10 @@ class KhachHangVIP extends KhachHang {
 		System.out.print("Nhap tong so tien da mua (VND):");
 		tongTienMua=sc.nextDouble();
 		diemTichLuy=(int)(tongTienMua/1000);
-		if (diemTichLuy>100) mucGiamGia=15;
-		else if(diemTichLuy > 0 && diemTichLuy <= 50) mucGiamGia=5;
-		else if(diemTichLuy >50 && diemTichLuy <=100) mucGiamGia=10;
-		else mucGiamGia = 0;
+		if (diemTichLuy > 100) mucGiamGia = 0.15;
+		else if (diemTichLuy > 50 && diemTichLuy <= 100) mucGiamGia = 0.1;
+		else if (diemTichLuy > 0 && diemTichLuy <= 50) mucGiamGia = 0.05;
+		System.out.println("Muc giam gia hien tai"+(mucGiamGia*100)+"%");
 	}
 
 	@Override
@@ -58,6 +58,6 @@ class KhachHangVIP extends KhachHang {
         super.hienThiThongTin();
         System.out.println("Tong tien da mua: " + tongTienMua + " VND");
         System.out.println("Diem tich luy: " + diemTichLuy);
-        System.out.println("Muc giam gia hien tai: " + mucGiamGia + "%");
+        System.out.println("Muc giam gia hien tai: " + mucGiamGia*100 +"%");
     }
 }
