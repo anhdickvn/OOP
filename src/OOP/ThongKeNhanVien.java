@@ -39,39 +39,7 @@ public class ThongKeNhanVien {
 		for (NhanVien nv : dsNhanVien)
 			nv.hienThiThongTin();
 	}
-	 public void thongKeNhanVienTheoGioiTinh() {
-    if (dsNhanVien == null || dsNhanVien.length == 0) {
-        System.out.println("Chua co du lieu nhan vien!");
-        return;
-    }
-
-    System.out.println("\n=== THONG KE NHAN VIEN THEO GIOI TINH ===");
-    System.out.println("\n--- Danh sach nhan vien Nam ---");
-    boolean coNam = false;
-    for (NhanVien nv : dsNhanVien) {
-        if (nv.getGioiTinh().equalsIgnoreCase("Nam")) {
-            nv.hienThiThongTin();
-            System.out.println("----------------------");
-            coNam = true;
-        }
-    }
-    if (!coNam) {
-        System.out.println("Khong co nhan vien Nam.");
-    }
-
-    System.out.println("\n--- Danh sach nhan vien Nu ---");
-    boolean coNu = false;
-    for (NhanVien nv : dsNhanVien) {
-        if (nv.getGioiTinh().equalsIgnoreCase("Nu")) {
-            nv.hienThiThongTin();
-            System.out.println("----------------------");
-            coNu = true;
-        }
-    }
-    if (!coNu) {
-        System.out.println("Khong co nhan vien Nu.");
-    }
-}
+	
 public void thongKeNhanVienTheoDoanhThu() {
     if (dsNhanVien == null || dsNhanVien.length == 0) {
         System.out.println("Chua co du lieu nhan vien!");
