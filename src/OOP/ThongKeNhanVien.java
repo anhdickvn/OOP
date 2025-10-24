@@ -45,25 +45,23 @@ public void thongKeNhanVienTheoDoanhThu() {
         System.out.println("Chua co du lieu nhan vien!");
         return;
     }
-
-    NhanVien[] sapXep = dsNhanVien.clone();
-
-    for (int i = 0; i < sapXep.length - 1; i++) {
-        for (int j = 0; j < sapXep.length - 1 - i; j++) {
-            if (sapXep[j].getDoanhThu() > sapXep[j + 1].getDoanhThu()) {
-                NhanVien temp = sapXep[j];
-                sapXep[j] = sapXep[j + 1];
-                sapXep[j + 1] = temp;
-            }
+   for (int i = 0; i < dsNhanVien.length - 1; i++) {
+    for (int j = 0; j < dsNhanVien.length - 1 - i; j++) {
+        if (dsNhanVien[j].getDoanhThu() > dsNhanVien[j + 1].getDoanhThu()) {
+            NhanVien temp = dsNhanVien[j];
+            dsNhanVien[j] = dsNhanVien[j + 1];
+            dsNhanVien[j + 1] = temp;
         }
     }
+}
 
-    System.out.println("\n=== DANH SACH NHAN VIEN THEO DOANH THU TANG DAN ===");
-    for (NhanVien nv : sapXep) {
-        nv.hienThiThongTin();
-        System.out.println(">> Doanh thu: " + nv.getDoanhThu());
-        System.out.println("--------------------------------");
-    }
+
+  System.out.println("\n=== DANH SACH NHAN VIEN THEO DOANH THU TANG DAN ===");
+for (NhanVien nv : dsNhanVien) {
+    nv.hienThiThongTin();
+    System.out.println(">> Doanh thu: " + nv.getDoanhThu());
+    System.out.println("--------------------------------");
+	}
 }
 public void thongKeTheoChucVu() {
     if (dsNhanVien == null || dsNhanVien.length == 0) {
