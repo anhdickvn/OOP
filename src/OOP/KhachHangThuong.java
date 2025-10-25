@@ -1,16 +1,14 @@
 package OOP;
 
-import java.util.Scanner;
-
 class KhachHangThuong extends KhachHang {
 	private int soLanMua;
 
 	public KhachHangThuong() {
 	}
 
-	public KhachHangThuong(String hoTen, String maDinhDanh, String ngaySinh, String diaChi, String soDienThoai,
+	public KhachHangThuong(String hoTen, String ngaySinh, String diaChi, String soDienThoai,
 			String idKhachHang, int soLanMua) {
-		super(hoTen, maDinhDanh, ngaySinh, diaChi, soDienThoai, idKhachHang);
+		super(hoTen, ngaySinh, diaChi, soDienThoai, idKhachHang);
 		this.soLanMua = soLanMua;
 	}
 
@@ -32,7 +30,7 @@ class KhachHangThuong extends KhachHang {
 
 	@Override
 	public void hienThiThongTin() {
-		System.out.println("=== Khach Hang Thuong ===");
+		System.out.println("\n=== Khach Hang Thuong ===");
 		super.hienThiThongTin();
 		System.out.println("So lan mua: " + soLanMua);
 	}
