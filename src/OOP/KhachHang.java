@@ -1,16 +1,13 @@
 package OOP;
 
-import java.util.Scanner;
-
-public class KhachHang extends ConNguoi {
+class KhachHang extends ConNguoi {
 	private String idKhachHang;
 
 	public KhachHang() {
 	}
 
-	public KhachHang(String hoTen, String maDinhDanh, String ngaySinh, String diaChi, String soDienThoai,
-			String idKhachHang) {
-		super(hoTen, maDinhDanh, ngaySinh, diaChi, soDienThoai);
+	public KhachHang(String hoTen, String ngaySinh, String diaChi, String soDienThoai, String idKhachHang) {
+		super(hoTen, ngaySinh, diaChi, soDienThoai);
 		this.idKhachHang = idKhachHang;
 	}
 
@@ -24,16 +21,15 @@ public class KhachHang extends ConNguoi {
 
 	@Override
 	public void nhapThongTin() {
-		super.nhapThongTin();
 		Scanner sc = new Scanner(System.in);
 		System.out.print("Nhap ID khach hang: ");
 		idKhachHang = sc.nextLine();
+		super.nhapThongTin();
 	}
 
 	@Override
 	public void hienThiThongTin() {
-		System.out.println("=== Thong tin khach hang ===");
-		super.hienThiThongTin();
 		System.out.println("ID khach hang: " + idKhachHang);
+		super.hienThiThongTin();
 	}
 }
