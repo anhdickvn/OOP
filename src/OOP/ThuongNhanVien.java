@@ -1,48 +1,34 @@
 package OOP;
 
-import java.util.Scanner;
 
 public class ThuongNhanVien {
-	private double soTienThuong;
+    public void tinhThuong() {
+        NhanVien[] ds = NhanVien.dsNV;
 
-	public ThuongNhanVien() {
-	}
+        if (ds == null || ds.length == 0) {
+            System.out.println("Chua co du lieu");
+            return;
+        }
 
-	public double getSoTienThuong() {
-		return soTienThuong;
-	}
+        System.out.println("\n=== DANH SACH NHAN VIEN DUOC THUONG ===");
+        boolean coNhanVienThuong = false;
 
-	public void setSoTienThuong(double soTienThuong) {
-		this.soTienThuong = soTienThuong;
-	}
+        for (NhanVien nv : ds) {
+            double doanhThuNV = nv.getDoanhThu();
 
-	public void tinhThuong(ThongKeNhanVien tk) {
-		if (tk == null || tk.getDsNhanVien() == null || tk.getDsNhanVien().length == 0) {
-			System.out.println("Chua co du lieu nhan vien!");
-			return;
-		}
+            if (doanhThuNV > 1000000) {
+                double tienThuong = doanhThuNV * 0.1;
+                coNhanVienThuong = true;
 
-		Scanner sc = new Scanner(System.in);
+                System.out.println("Ho ten: " + nv.getHoTen());
+                System.out.println("Chuc vu: " + nv.getChucVu());
+                System.out.println("Doanh thu: " + doanhThuNV);
+                System.out.println("Tien thuong: " + tienThuong);
+                System.out.println("--------------------------------");
+            }
+        }
 
-		System.out.println("\n=== DANH SACH NHAN VIEN DUOC THUONG ===");
-		boolean coNhanVienThuong = false;
-
-		for (NhanVien nv : tk.getDsNhanVien()) {
-			double doanhThuNV = nv.getDoanhThu();
-
-			if (doanhThuNV > 100000000) {
-				soTienThuong = doanhThuNV * 0.1;
-				coNhanVienThuong = true;
-
-				nv.hienThiThongTin();
-				System.out.println("Doanh thu: " + doanhThuNV);
-				System.out.println(">> So Tien Thuong: " + soTienThuong);
-				System.out.println("--------------------------------");
-			}
-		}
-
-		if (!coNhanVienThuong) {
-			System.out.println("Nhan vien Phe");
-		}
-	}
-}
+        if (!coNhanVienThuong) {
+            System.out.println("Khong co nhan vien nao duoc nhan thuong");
+        }
+    }
