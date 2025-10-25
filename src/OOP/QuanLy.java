@@ -1,5 +1,7 @@
 package OOP;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.Scanner;
 
 public class QuanLy extends ConNguoi {
@@ -42,8 +44,7 @@ public class QuanLy extends ConNguoi {
 		this.khuLamViec = khuLamViec;
 	}
 
-	@Override
-	public static void xuatQuanLy() {
+  public static void xuatQuanLy() {
     QuanLy dsQL[] = new QuanLy[0];
     try {
         BufferedReader br = new BufferedReader(new FileReader("QuanLy.txt"));
@@ -79,5 +80,5 @@ public String toString() {
     return String.format("%-20s| %-15s| %-12s| %-15s| %-12s| %-10s| %-12.0f| %-15s",
         getHoTen(), getMaDinhDanh(), getNgaySinh(), getDiaChi(), getSoDienThoai(),
         idQuanLy, luong, khuLamViec);
-}
+}			
 }
