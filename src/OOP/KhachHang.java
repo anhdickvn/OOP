@@ -1,35 +1,37 @@
 package OOP;
 
-class KhachHang extends ConNguoi {
-	private String idKhachHang;
+class KhachHangThuong extends KhachHang {
+	private int soLanMua;
 
-	public KhachHang() {
+	public KhachHangThuong() {
 	}
 
-	public KhachHang(String hoTen, String ngaySinh, String diaChi, String soDienThoai, String idKhachHang) {
-		super(hoTen, ngaySinh, diaChi, soDienThoai);
-		this.idKhachHang = idKhachHang;
+	public KhachHangThuong(String hoTen, String ngaySinh, String diaChi, String soDienThoai,
+			String idKhachHang, int soLanMua) {
+		super(hoTen, ngaySinh, diaChi, soDienThoai, idKhachHang);
+		this.soLanMua = soLanMua;
 	}
 
-	public String getIdKhachHang() {
-		return idKhachHang;
+	public int getSoLanMua() {
+		return soLanMua;
 	}
 
-	public void setIdKhachHang(String idKhachHang) {
-		this.idKhachHang = idKhachHang;
+	public void setSoLanMua(int soLanMua) {
+		this.soLanMua = soLanMua;
 	}
 
 	@Override
 	public void nhapThongTin() {
-		Scanner sc = new Scanner(System.in);
-		System.out.print("Nhap ID khach hang: ");
-		idKhachHang = sc.nextLine();
 		super.nhapThongTin();
+		Scanner sc = new Scanner(System.in);
+		System.out.print("Nhap so lan mua hang: ");
+		soLanMua = sc.nextInt();
 	}
 
 	@Override
 	public void hienThiThongTin() {
-		System.out.println("ID khach hang: " + idKhachHang);
+		System.out.println("\n=== Khach Hang Thuong ===");
 		super.hienThiThongTin();
+		System.out.println("So lan mua: " + soLanMua);
 	}
 }
