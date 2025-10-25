@@ -1,4 +1,4 @@
-Pack OOP;
+Package OOP;
 import java.util.Scanner;
 
 public class ThongKeNhanVien {
