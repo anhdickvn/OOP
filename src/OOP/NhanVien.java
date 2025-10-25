@@ -63,30 +63,40 @@ public class NhanVien extends ConNguoi {
 	}
 
 	@Override
-	public void nhapThongTin() {
-		super.nhapThongTin();
-		Scanner sc = new Scanner(System.in);
-		System.out.print("Nhap ID Nhan Vien: ");
-		idNhanVien = sc.nextLine();
-		System.out.print("Nhap luong: ");
-		luong = Double.parseDouble(sc.nextLine());
-		System.out.print("Nhap chuc vu: ");
-		chucVu = sc.nextLine();
-		System.out.print("Nhap ca lam viec: ");
-		ca = sc.nextLine();
-		System.out.print("Nhap doanh thu: ");
-		doanhThu = sc.nextDouble();
-		sc.nextLine();
-	}
-
-	@Override
-	public void hienThiThongTin() {
-		System.out.println("=== Thong tin Nhan Vien ===");
-		super.hienThiThongTin();
-		System.out.println("ID Nhan Vien: " + idNhanVien);
-		System.out.println("Luong: " + luong);
-		System.out.println("Chuc vu: " + chucVu);
-		System.out.println("Ca lam viec: " + ca);
-		System.out.println("Doanh Thu: " + doanhThu);
-	}
+	public static void xuatNhanVien() {
+    NhanVien dsNV[] = new NhanVien[0];
+    try {
+        BufferedReader br = new BufferedReader(new FileReader("NhanVien.txt"));
+        String line;
+        while ((line = br.readLine()) != null) {
+            String[] st = line.split(";");
+            NhanVien nv = new NhanVien(
+                st[0], st[1], st[2], st[3], st[4],    // Thuộc tính ConNguoi
+                st[5],                                // idNhanVien
+                Double.parseDouble(st[6]),            // luong
+                st[7],                                // chucVu
+                st[8],                                // ca
+                Double.parseDouble(st[9])             // doanhThu
+            );
+            dsNV = java.util.Arrays.copyOf(dsNV, dsNV.length + 1);
+            dsNV[dsNV.length - 1] = nv;
+        }
+        br.close();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+ System.out.printf("%-20s| %-15s| %-12s| %-15s| %-12s| %-10s| %-12s| %-15s| %-8s| %-12s\n",
+        "Ho Ten", "Ma Dinh Danh", "Ngay Sinh", "Dia Chi", "SDT", 
+        "ID NV", "Luong", "Chuc Vu", "Ca", "Doanh Thu");
+    System.out.println("-----------------------------------------------------------------------------------------------------------");
+    for (NhanVien nv : dsNV) {
+        System.out.println(nv);
+    }
+}
+@Override
+public String toString() {
+    return String.format("%-20s| %-15s| %-12s| %-15s| %-12s| %-10s| %-12.0f| %-15s| %-8s| %-12.0f",
+        getHoTen(), getMaDinhDanh(), getNgaySinh(), getDiaChi(), getSoDienThoai(),
+        idNhanVien, luong, chucVu, ca, doanhThu);
+}
 }
