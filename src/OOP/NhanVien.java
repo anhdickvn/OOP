@@ -3,6 +3,7 @@ package OOP;
 import java.util.Scanner;
 
 public class NhanVien extends ConNguoi {
+	 public static NhanVien[] dsNV = new NhanVien[0];
 	private String idNhanVien;
 	private double luong;
 	private String chucVu;
@@ -64,7 +65,7 @@ public class NhanVien extends ConNguoi {
 
 	@Override
 	public static void xuatNhanVien() {
-    NhanVien dsNV[] = new NhanVien[0];
+    dsNV = new NhanVien[0];
     try {
         BufferedReader br = new BufferedReader(new FileReader("NhanVien.txt"));
         String line;
