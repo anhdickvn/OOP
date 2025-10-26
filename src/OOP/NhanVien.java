@@ -88,7 +88,8 @@ public class NhanVien extends ConNguoi {
     } catch (Exception e) {
         e.printStackTrace();
     }
- System.out.printf("%-20s| %-15s| %-12s| %-10s| %-7s| %-7s| %-10s| %-10s| %-5s| %-12s\n",
+	System.out.println("===DANH SACH NHAN VIEN==="); 
+ 	System.out.printf("%-20s| %-15s| %-12s| %-10s| %-7s| %-7s| %-10s| %-10s| %-5s| %-12s\n",
         "Ho Ten", "Ma Dinh Danh", "Ngay Sinh", "Dia Chi", "SDT", 
         "ID NV", "Luong", "Chuc Vu", "Ca", "Doanh Thu");
     System.out.println("-----------------------------------------------------------------------------------------------------------");
