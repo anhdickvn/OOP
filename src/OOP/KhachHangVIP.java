@@ -1,95 +1,93 @@
 package OOP;
-import java.io.*;
-import java.util.*;
-class KhachHangVIP extends KhachHang {  
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Arrays;
+
+public class KhachHangVIP extends KhachHang {
+	private double tongChiTieu;
 	private double mucGiamGia;
-	private double tongTienMua;
 	private int diemTichLuy;
 
 	public KhachHangVIP() {
+		super();
 	}
 
-	public KhachHangVIP(String hoTen, String ngaySinh, String diaChi, String soDienThoai,
-			String idKhachHang, double mucGiamGia, int diemTichLuy, double tongTienMua) {
-		super(hoTen, ngaySinh, diaChi, soDienThoai, idKhachHang);
-		this.mucGiamGia = mucGiamGia;
-		this.diemTichLuy = diemTichLuy;
-		this.tongTienMua = tongTienMua;
+	public KhachHangVIP(String idKhachHang, String hoTen, String ngaySinh, String diaChi, String soDienThoai,
+			double tongChiTieu) {
+		super(idKhachHang, hoTen, ngaySinh, diaChi, soDienThoai);
+		this.tongChiTieu = tongChiTieu;
+		capNhatUuDai();
+	}
+
+	public double getTongChiTieu() {
+		return tongChiTieu;
+	}
+
+	public void setTongChiTieu(double tongChiTieu) {
+		this.tongChiTieu = tongChiTieu;
+		capNhatUuDai();
 	}
 
 	public double getMucGiamGia() {
 		return mucGiamGia;
 	}
 
-	public void setMucGiamGia(double mucGiamGia) {
-		this.mucGiamGia = mucGiamGia;
-	}
-
 	public int getDiemTichLuy() {
 		return diemTichLuy;
 	}
 
-	public void setDiemTichLuy(int diemTichLuy) {
-		this.diemTichLuy = diemTichLuy;
+	public void capNhatUuDai() {
+		this.diemTichLuy = (int) (tongChiTieu / 10000);
+		this.mucGiamGia = diemTichLuy / 100.0;
+		if (mucGiamGia > 15)
+			mucGiamGia = 15;
 	}
 
-	public double getTongTienMua() {
-		return tongTienMua;
+	public static KhachHangVIP[] docFile() {
+		KhachHangVIP[] dsKH = new KhachHangVIP[0];
+
+		try (BufferedReader br = new BufferedReader(new FileReader("khvip.txt"))) {
+			String line;
+			while ((line = br.readLine()) != null) {
+				String[] st = line.split(";");
+				double tongChiTieu = Double.parseDouble(st[5]);
+				KhachHangVIP kh = new KhachHangVIP(st[0], st[1], st[2], st[3], st[4], tongChiTieu);
+				dsKH = Arrays.copyOf(dsKH, dsKH.length + 1);
+				dsKH[dsKH.length - 1] = kh;
+			}
+		} catch (IOException e) {
+			System.out.println("Lỗi đọc file: " + e.getMessage());
+		}
+
+		try (BufferedWriter bw = new BufferedWriter(new FileWriter("khvip.txt"))) {
+			for (KhachHangVIP kh : dsKH) {
+				bw.write(kh.getIdKhachHang() + ";" + kh.getHoTen() + ";" + kh.getNgaySinh() + ";" + kh.getDiaChi() + ";"
+						+ kh.getSoDienThoai() + ";" + kh.getTongChiTieu() + ";" + kh.getDiemTichLuy() + ";"
+						+ kh.getMucGiamGia());
+				bw.newLine();
+			}
+		} catch (IOException e) {
+			System.out.println("Lỗi ghi file: " + e.getMessage());
+		}
+
+		return dsKH;
 	}
 
-	public void setTongTienMua(double tongTienMua) {
-		this.tongTienMua = tongTienMua;
+	public static void xuatDanhSach() {
+		KhachHangVIP[] dsKH = docFile();
+		System.out.printf("%-10s | %-20s | %-12s | %-15s | %-12s | %-12s | %-10s | %-10s\n", "ID KH", "Họ Tên",
+				"Ngày Sinh", "Địa Chỉ", "SĐT", "Tổng Chi Tiêu", "Điểm TL", "Giảm giá (%)");
+		System.out.println(
+				"---------------------------------------------------------------------------------------------------------------");
+
+		for (KhachHangVIP kh : dsKH) {
+			System.out.printf("%-10s | %-20s | %-12s | %-15s | %-12s | %-12.0f | %-10d | %-10.2f\n",
+					kh.getIdKhachHang(), kh.getHoTen(), kh.getNgaySinh(), kh.getDiaChi(), kh.getSoDienThoai(),
+					kh.getTongChiTieu(), kh.getDiemTichLuy(), kh.getMucGiamGia());
+		}
 	}
-
-	@Override
-	public void nhapThongTin() {
-		super.nhapThongTin();
-		Scanner sc = new Scanner(System.in);
-		System.out.print("Nhap tong so tien da mua (VND): ");
-		tongTienMua = sc.nextDouble();
-		diemTichLuy = (int) (tongTienMua / 1000);
-
-		if (diemTichLuy > 100)
-			mucGiamGia = 0.15;
-		else if (diemTichLuy > 50 && diemTichLuy <= 100)
-			mucGiamGia = 0.1;
-		else if (diemTichLuy > 0 && diemTichLuy <=50)
-			mucGiamGia = 0.05;
-		System.out.println("Muc giam gia hien tai: " + (mucGiamGia * 100) + "%");
-	}
-
-	@Override
-	public void hienThiThongTin() {
-		System.out.println("\n=== Khach Hang VIP ===");
-		super.hienThiThongTin();
-		System.out.println("Tong tien da mua: " + tongTienMua + " VND");
-		System.out.println("Diem tich luy: " + diemTichLuy);
-		System.out.println("Muc giam gia hien tai: " + (mucGiamGia * 100) + "%");    
-    }
-     public static List<KhachHangVIP> docTuFile() {
-        String fileName = "khachhangvip.txt"; // file nằm cùng thư mục project
-        List<KhachHangVIP> danhSach = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] parts = line.split(",");
-                if (parts.length == 8) {
-                    String hoTen = parts[0];
-                    String ngaySinh = parts[1];
-                    String diaChi = parts[2];
-                    String soDienThoai = parts[3];
-                    String idKhachHang = parts[4];
-                    double tongTienMua = Double.parseDouble(parts[5]);
-                    int diemTichLuy = Integer.parseInt(parts[6]);
-                    double mucGiamGia = Double.parseDouble(parts[7]);
-                    danhSach.add(new KhachHangVIP(hoTen, ngaySinh, diaChi, soDienThoai, idKhachHang,
-                            mucGiamGia, diemTichLuy, tongTienMua));
-                }
-            }
-        } catch (IOException e) {
-            System.out.println("Loi doc file: " + e.getMessage());
-        }
-        return danhSach;
-    }
 }
-
