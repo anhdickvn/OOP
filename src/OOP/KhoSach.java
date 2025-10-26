@@ -98,36 +98,65 @@ class KhoSach {
     }    
 
     public void timKiemGanDung() {
-		Scanner sc = new Scanner(System.in);
-		boolean timThay = false;
-		System.out.println("Nhap the loai muon tim: ");
-		String tuKhoa = sc.nextLine();
-		tuKhoa = tuKhoa.toLowerCase().trim(); // chuẩn hóa từ khóa để dễ so sánh
+    	Scanner sc = new Scanner(System.in);
+    	System.out.print("Nhập thông tin muốn tìm (ID / Tên sách / Tác giả / Thể loại): ");
+    	String tuKhoa = sc.nextLine().toLowerCase();
+		ds = Sach.docKho();
 
-    for (Sach s : ds) {
-        for (TheLoai tl : s.getTheLoai()) {
-            if (tl.getTenTheLoai().toLowerCase().contains(tuKhoa) || tl.getIdTheLoai().toLowerCase().contains(tuKhoa)) {
+    	boolean timThay = false;
 
-                System.out.println("Tìm thấy: " + s.getTenSach());
-				System.out.println("TAC GIA: ");
-				for (TacGia tg : s.getTacGia()) {
-                    System.out.println("   - " + tg.getTenTacGia() + " (ID: " + tg.getIdTacGia() + ")");
-                }
+    	for (Sach s : ds) {
+        	// Kiểm tra ID hoặc tên sách
+			boolean timTen = false;
+         	if(s.getIdSach().equals(tuKhoa)||s.getTenSach().toLowerCase().contains(tuKhoa)){
+				timTen = true;
+		 	}
 
-                System.out.println("The loại:");
-                // Duyệt danh sách thể loại
-                for (TheLoai tl2 : s.getTheLoai()) {
-                    System.out.println("   - " + tl2.getTenTheLoai() + " (ID: " + tl2.getIdTheLoai() + ")");
-                }
-                timThay = true;
-                break; 
-            }
-        }
-    }
+        	// Kiểm tra tác giả
+        	boolean timTacGia = false;
+        	if (s.getTacGia() != null) {
+            	for (TacGia tg : s.getTacGia()) {
+                	if (tg.getTenTacGia().toLowerCase().contains(tuKhoa)) {
+                    	timTacGia = true;
+                    	break;
+                	}
+            	}
+        	}
 
-    if (!timThay) {
-        System.out.println("Không tìm thấy sách có thể loại gần đúng với: " + tuKhoa);
-    }
+        	// Kiểm tra thể loại
+        	boolean timTheLoai = false;
+       	 	if (s.getTheLoai() != null) {
+            	for (TheLoai tl : s.getTheLoai()) {
+                	if (tl.getTenTheLoai().toLowerCase().contains(tuKhoa)) {
+                    	timTheLoai = true;
+                    	break;
+                	}
+            	}
+        	}
+
+        	// Nếu trùng với bất kỳ điều kiện nào
+        	if (timTen || timTacGia || timTheLoai) {
+            	timThay = true;
+            	System.out.println("───────────────────────────────────────────────");
+            	System.out.println("📘 ID Sách: " + s.getIdSach());
+            	System.out.println("Tên sách: " + s.getTenSach());
+            	System.out.println("Tác giả:");
+            	for (TacGia tg : s.getTacGia()) {
+                	System.out.println("   - " + tg.getTenTacGia() + " (ID: " + tg.getIdTacGia() + ")");
+            	}
+            	System.out.println("Thể loại:");
+            	for (TheLoai tl : s.getTheLoai()) {
+                	System.out.println("   - " + tl.getTenTheLoai() + " (ID: " + tl.getIdTheLoai() + ")");
+            	}
+            	System.out.println("───────────────────────────────────────────────");
+        	}
+    	}
+
+    	if (!timThay) {
+        	System.out.println("❌ Không tìm thấy sách phù hợp với từ khóa: " + tuKhoa);
+    	}	
+	}
+}
 		public static void ThongKeHoaDon(HoaDon[] dsHoaDon, int soLuongHoaDon, KhoSach kho) {
     if (dsHoaDon == null || soLuongHoaDon == 0) {
         Scanner sc = new Scanner(System.in);
