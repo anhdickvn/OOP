@@ -1,6 +1,6 @@
 package OOP;
 
-public class KhachHang extends ConNguoi {
+public abstract class KhachHang extends ConNguoi {
 	private String idKhachHang;
 
 	public KhachHang() {
