@@ -1,9 +1,12 @@
 package OOP;
 
+
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.Scanner;
 
 public class NhanVien extends ConNguoi {
-	 public static NhanVien[] dsNV = new NhanVien[0];
+     public static NhanVien[] dsNV = new NhanVien[0];
 	private String idNhanVien;
 	private double luong;
 	private String chucVu;
@@ -63,9 +66,8 @@ public class NhanVien extends ConNguoi {
 		this.ca = ca;
 	}
 
-	@Override
-	public static void xuatNhanVien() {
-    dsNV = new NhanVien[0];
+ public static void xuatNhanVien() {
+     dsNV = new NhanVien[0];
     try {
         BufferedReader br = new BufferedReader(new FileReader("NhanVien.txt"));
         String line;
@@ -86,7 +88,7 @@ public class NhanVien extends ConNguoi {
     } catch (Exception e) {
         e.printStackTrace();
     }
- System.out.printf("%-20s| %-15s| %-12s| %-15s| %-12s| %-10s| %-12s| %-15s| %-8s| %-12s\n",
+ System.out.printf("%-20s| %-15s| %-12s| %-15s| %-7s| %-10s| %-12s| %-12s| %-8s| %-12s\n",
         "Ho Ten", "Ma Dinh Danh", "Ngay Sinh", "Dia Chi", "SDT", 
         "ID NV", "Luong", "Chuc Vu", "Ca", "Doanh Thu");
     System.out.println("-----------------------------------------------------------------------------------------------------------");
@@ -96,7 +98,7 @@ public class NhanVien extends ConNguoi {
 }
 @Override
 public String toString() {
-    return String.format("%-20s| %-15s| %-12s| %-15s| %-12s| %-10s| %-12.0f| %-15s| %-8s| %-12.0f",
+    return String.format("%-20s| %-15s| %-12s| %-15s| %-7s| %-10s| %-12.0f| %-12s| %-8s| %-12.0f",
         getHoTen(), getMaDinhDanh(), getNgaySinh(), getDiaChi(), getSoDienThoai(),
         idNhanVien, luong, chucVu, ca, doanhThu);
 }
