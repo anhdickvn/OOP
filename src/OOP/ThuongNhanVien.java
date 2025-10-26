@@ -9,9 +9,8 @@ public class ThuongNhanVien {
             System.out.println("Chưa có dữ liệu");
             return;
         }
-         System.out.println("\n=== DANH SÁCH NHÂN VIÊN ĐƯỢC THƯỞNG ===\n");
+         System.out.println("=== DANH SÁCH NHÂN VIÊN ĐƯỢC THƯỞNG ===");
 
-        // In tiêu đề bảng
         System.out.printf("%-25s| %-15s| %-15s| %-15s\n",
                 "Họ tên", "Chức vụ", "Doanh thu", "Tiền thưởng");
         System.out.println("---------------------------------------------------------------------");
