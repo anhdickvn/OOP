@@ -1,12 +1,12 @@
 package OOP;
 
-class KhachHang extends ConNguoi {
+public class KhachHang extends ConNguoi {
 	private String idKhachHang;
 
 	public KhachHang() {
 	}
 
-	public KhachHang(String hoTen, String ngaySinh, String diaChi, String soDienThoai, String idKhachHang) {
+	public KhachHang(String idKhachHang, String hoTen, String ngaySinh, String diaChi, String soDienThoai) {
 		super(hoTen, ngaySinh, diaChi, soDienThoai);
 		this.idKhachHang = idKhachHang;
 	}
@@ -20,17 +20,7 @@ class KhachHang extends ConNguoi {
 	}
 
 	@Override
-	public void nhapThongTin() {
-		Scanner sc = new Scanner(System.in);
-		System.out.print("Nhap ID khach hang: ");
-		idKhachHang = sc.nextLine();
-		super.nhapThongTin();
-	}
-
-	@Override
-	public void hienThiThongTin() {
-		System.out.println("ID khach hang: " + idKhachHang);
-		super.hienThiThongTin();
+	public String toString() {
+		return idKhachHang + " | " + super.toString();
 	}
 }
-
