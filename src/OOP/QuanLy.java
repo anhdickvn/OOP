@@ -66,10 +66,10 @@ public class QuanLy extends ConNguoi {
     } catch (Exception e) {
         e.printStackTrace();
     }
-	System.out.println("===DANH SACH QUAN LY===");
+	System.out.println("===DANH SÁCH QUẢN LÝ===");
     System.out.printf("%-20s| %-15s| %-12s| %-15s| %-12s| %-10s| %-12s| %-15s\n",
-        "Ho Ten", "Ma Dinh Danh", "Ngay Sinh", "Dia Chi", "SDT",
-        "ID QL", "Luong", "Khu Lam Viec");
+        "Họ Tên", "Mã Định Danh", "Ngày Sinh", "Địa Chỉ", "SĐT",
+        "ID QL", "Lương", "Khu Làm Việc");
     System.out.println("-----------------------------------------------------------------------------------------------------------");
     for (QuanLy ql : dsQL) {
         System.out.println(ql);
