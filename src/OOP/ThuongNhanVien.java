@@ -6,14 +6,14 @@ public class ThuongNhanVien {
         NhanVien[] ds = NhanVien.dsNV;
 
         if (ds == null || ds.length == 0) {
-            System.out.println("Chua co du lieu");
+            System.out.println("Chưa có dữ liệu");
             return;
         }
-         System.out.println("\n=== DANH SACH NHAN VIEN DUOC THUONG ===\n");
+         System.out.println("\n=== DANH SÁCH NHÂN VIÊN ĐƯỢC THƯỞNG ===\n");
 
         // In tiêu đề bảng
         System.out.printf("%-25s| %-15s| %-15s| %-15s\n",
-                "Ho ten", "Chuc vu", "Doanh thu", "Tien thuong");
+                "Họ tên", "Chức vụ", "Doanh thu", "Tiền thưởng");
         System.out.println("---------------------------------------------------------------------");
         boolean coNhanVienThuong = false;
 
@@ -30,7 +30,7 @@ public class ThuongNhanVien {
     }
 
         if (!coNhanVienThuong) {
-            System.out.println("Khong co nhan vien nao duoc nhan thuong");
+            System.out.println("Không có nhân viên nào được thưởng");
             }
         }
     }
