@@ -3,6 +3,7 @@ package OOP;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class Sach {
 	private String idSach;
@@ -13,7 +14,7 @@ public class Sach {
 	private TacGia[] tacGia;
 	private TheLoai[] theLoai;
 	private NhaXuatBan nhaXuatBan;
-	private static double thueVAT = 0.1;
+	private static double thueVAT = 0.08;
 
 	public Sach() {
 
@@ -31,50 +32,88 @@ public class Sach {
 		this.theLoai = theLoai;
 	}
 
-	public void setTacGia(TacGia[] tacGia) {
-		this.tacGia = tacGia;
-	}
-
-	public void setTheLoai(TheLoai[] theLoai) {
-		this.theLoai = theLoai;
-	}
-
-	public TacGia[] getTacGia() {
-		return tacGia;
-	}
-
-	public TheLoai[] getTheLoai() {
-		return theLoai;
-	}
-
 	public String getIdSach() {
 		return idSach;
+	}
+
+	public void setIdSach(String idSach) {
+		this.idSach = idSach;
 	}
 
 	public String getTenSach() {
 		return tenSach;
 	}
 
+	public void setTenSach(String tenSach) {
+		this.tenSach = tenSach;
+	}
+
 	public double getGia() {
 		return gia;
 	}
 
-	public int getNamXuatBan() { 
+	public void setGia(double gia) {
+		this.gia = gia;
+	}
+
+	public int getNamXuatBan() {
 		return namXuatBan;
+	}
+
+	public void setNamXuatBan(int namXuatBan) {
+		this.namXuatBan = namXuatBan;
 	}
 
 	public int getSoLuong() {
 		return soLuong;
 	}
 
+	public void setSoLuong(int soLuong) {
+		this.soLuong = soLuong;
+	}
+
+	public TacGia[] getTacGia() {
+		return tacGia;
+	}
+
+	public void setTacGia(TacGia[] tacGia) {
+		this.tacGia = tacGia;
+	}
+
+	public TheLoai[] getTheLoai() {
+		return theLoai;
+	}
+
+	public void setTheLoai(TheLoai[] theLoai) {
+		this.theLoai = theLoai;
+	}
+
 	public NhaXuatBan getNhaXuatBan() {
 		return nhaXuatBan;
+	}
+
+	public void setNhaXuatBan(NhaXuatBan nhaXuatBan) {
+		this.nhaXuatBan = nhaXuatBan;
+	}
+
+	public static double getThueVAT() {
+		return thueVAT;
+	}
+
+	public static void setThueVAT(double thueVAT) {
+		Sach.thueVAT = thueVAT;
+	}
+
+	public double tinhTongTienSauThue(int soLuongMua) {
+		double tongTruocThue = gia * soLuongMua;
+		double tongSauThue = tongTruocThue * (1 + thueVAT);
+		return tongSauThue;
 	}
 
 	public static Sach[] docKho() {
 		Sach[] ds = new Sach[0];
 		try {
-			BufferedReader br = new BufferedReader(new FileReader("test.txt"));
+			BufferedReader br = new BufferedReader(new FileReader("sach.txt"));
 			String line;
 
 			while ((line = br.readLine()) != null) {
@@ -137,6 +176,62 @@ public class Sach {
 			System.out.printf("%-5s | %-35s | %-50s | %-45s | %-10.0f | %-8d | %-5d | %-20s\n", s.getIdSach(),
 					s.getTenSach(), tgStr, tlStr, s.getGia(), s.getNamXuatBan(), s.getSoLuong(),
 					s.getNhaXuatBan().getTenNhaXuatBan());
+		}
+	}
+
+	public void timKiemSach() {
+		Scanner sc = new Scanner(System.in);
+		System.out.print("Nhập thông tin muốn tìm (ID / Tên sách / Tác giả / Thể loại): ");
+		String tuKhoa = sc.nextLine().toLowerCase();
+		Sach[] ds = Sach.docKho();
+
+		boolean timThay = false;
+
+		for (Sach s : ds) {
+			boolean timTen = false;
+			if (s.getIdSach().equalsIgnoreCase(tuKhoa) || s.getTenSach().toLowerCase().contains(tuKhoa)) {
+				timTen = true;
+			}
+
+			boolean timTacGia = false;
+			if (s.getTacGia() != null) {
+				for (TacGia tg : s.getTacGia()) {
+					if (tg.getTenTacGia().toLowerCase().contains(tuKhoa)) {
+						timTacGia = true;
+						break;
+					}
+				}
+			}
+
+			boolean timTheLoai = false;
+			if (s.getTheLoai() != null) {
+				for (TheLoai tl : s.getTheLoai()) {
+					if (tl.getTenTheLoai().toLowerCase().contains(tuKhoa)) {
+						timTheLoai = true;
+						break;
+					}
+				}
+			}
+
+			if (timTen || timTacGia || timTheLoai) {
+				timThay = true;
+				System.out.println("───────────────────────────────────────────────");
+				System.out.println("📘 ID Sách: " + s.getIdSach());
+				System.out.println("Tên sách: " + s.getTenSach());
+				System.out.println("Tác giả:");
+				for (TacGia tg : s.getTacGia()) {
+					System.out.println("   - " + tg.getTenTacGia() + " (ID: " + tg.getIdTacGia() + ")");
+				}
+				System.out.println("Thể loại:");
+				for (TheLoai tl : s.getTheLoai()) {
+					System.out.println("   - " + tl.getTenTheLoai() + " (ID: " + tl.getIdTheLoai() + ")");
+				}
+				System.out.println("───────────────────────────────────────────────");
+			}
+		}
+
+		if (!timThay) {
+			System.out.println("Không tìm thấy sách phù hợp với từ khóa: " + tuKhoa);
 		}
 	}
 }
