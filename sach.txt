@@ -1,0 +1,3 @@
+S01;Tôi thấy hoa vàng trên cỏ xanh;55000;14;100;NXB02;NXB Trẻ;Việt Nam;TG01,TG02,TG03;Nguyễn Nhật Ánh,Trần Văn B,Lê Thị C;TL01,TL02;Văn học,Truyện
+S02;Đắc Nhân Tâm;75000;2010;0;NXB01;NXB Kim Đồng;Việt Nam;TG04,TG05;Dale Carnegie,Nguyễn Văn D;TL01,TL03;Văn học,Self-help
+S03;Sapiens: Lược sử loài người;120000;2018;0;NXB03;NXB Alpha;Mỹ;TG06;Yuval Noah Harari;TL02,TL04;Truyện,Khoa học
