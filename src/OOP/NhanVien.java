@@ -88,7 +88,7 @@ public class NhanVien extends ConNguoi {
     } catch (Exception e) {
         e.printStackTrace();
     }
- System.out.printf("%-20s| %-15s| %-12s| %-15s| %-7s| %-10s| %-12s| %-12s| %-8s| %-12s\n",
+ System.out.printf("%-20s| %-15s| %-12s| %-10s| %-7s| %-7s| %-10s| %-10s| %-5s| %-12s\n",
         "Ho Ten", "Ma Dinh Danh", "Ngay Sinh", "Dia Chi", "SDT", 
         "ID NV", "Luong", "Chuc Vu", "Ca", "Doanh Thu");
     System.out.println("-----------------------------------------------------------------------------------------------------------");
@@ -98,7 +98,7 @@ public class NhanVien extends ConNguoi {
 }
 @Override
 public String toString() {
-    return String.format("%-20s| %-15s| %-12s| %-15s| %-7s| %-10s| %-12.0f| %-12s| %-8s| %-12.0f",
+    return String.format("%-20s| %-15s| %-12s| %-10s| %-7s| %-7s| %-10.0f| %-10s| %-5s| %-12.0f",
         getHoTen(), getMaDinhDanh(), getNgaySinh(), getDiaChi(), getSoDienThoai(),
         idNhanVien, luong, chucVu, ca, doanhThu);
 }
