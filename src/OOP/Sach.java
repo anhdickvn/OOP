@@ -71,7 +71,7 @@ public class Sach {
 		return nhaXuatBan;
 	}
 
-	public static void xuatKho() {
+	public static Sach[] docKho() {
 		Sach[] ds = new Sach[0];
 		try {
 			BufferedReader br = new BufferedReader(new FileReader("test.txt"));
@@ -95,6 +95,7 @@ public class Sach {
 				for (int i = 0; i < idTLs.length; i++) {
 					tlArr[i] = new TheLoai(idTLs[i].trim(), tenTLs[i].trim());
 				}
+
 				Sach s = new Sach(st[0], st[1], Double.parseDouble(st[2]), Integer.parseInt(st[3]),
 						Integer.parseInt(st[4]), nxb, tgArr, tlArr);
 
@@ -107,6 +108,12 @@ public class Sach {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
+		return ds;
+	}
+
+	public static void xuatKho() {
+		Sach[] ds = docKho();
 		System.out.printf("%-5s | %-35s | %-50s | %-45s | %-10s | %-8s | %-5s | %-20s\n", "ID", "Tên Sách", "Tác Giả",
 				"Thể Loại", "Giá", "NămXB", "SL", "NXB");
 		System.out.println(
