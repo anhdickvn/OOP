@@ -1,8 +1,6 @@
 package OOP;
 
-import java.util.Scanner;
-
-abstract class ConNguoi {
+public abstract class ConNguoi {
 	private String hoTen;
 	private String ngaySinh;
 	private String diaChi;
@@ -50,22 +48,8 @@ abstract class ConNguoi {
 		this.soDienThoai = soDienThoai;
 	}
 
-	public void nhapThongTin() {
-		Scanner sc = new Scanner(System.in);
-		System.out.print("Nhap ho ten: ");
-		hoTen = sc.nextLine();
-		System.out.print("Nhap ngay sinh: ");
-		ngaySinh = sc.nextLine();
-		System.out.print("Nhap dia chi: ");
-		diaChi = sc.nextLine();
-		System.out.print("Nhap so dien thoai: ");
-		soDienThoai = sc.nextLine();
-	}
-
-	public void hienThiThongTin() {
-		System.out.println("Ho ten: " + hoTen);
-		System.out.println("Ngay sinh: " + ngaySinh);
-		System.out.println("Dia chi: " + diaChi);
-		System.out.println("So dien thoai: " + soDienThoai);
+	@Override
+	public String toString() {
+		return hoTen + " | " + ngaySinh + " | " + diaChi + " | " + soDienThoai;
 	}
 }
