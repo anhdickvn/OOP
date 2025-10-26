@@ -1,4 +1,6 @@
 package OOP;
+import java.io.*;
+import java.util.*;
 class KhachHangVIP extends KhachHang {
 	private double mucGiamGia;
 	private double tongTienMua;
@@ -62,6 +64,32 @@ class KhachHangVIP extends KhachHang {
 		super.hienThiThongTin();
 		System.out.println("Tong tien da mua: " + tongTienMua + " VND");
 		System.out.println("Diem tich luy: " + diemTichLuy);
-		System.out.println("Muc giam gia hien tai: " + (mucGiamGia * 100) + "%");
-	}
+		System.out.println("Muc giam gia hien tai: " + (mucGiamGia * 100) + "%");    
+    }
+     public static List<KhachHangVIP> docTuFile() {
+        String fileName = "khachhangvip.txt"; // file nằm cùng thư mục project
+        List<KhachHangVIP> danhSach = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts.length == 8) {
+                    String hoTen = parts[0];
+                    String ngaySinh = parts[1];
+                    String diaChi = parts[2];
+                    String soDienThoai = parts[3];
+                    String idKhachHang = parts[4];
+                    double tongTienMua = Double.parseDouble(parts[5]);
+                    int diemTichLuy = Integer.parseInt(parts[6]);
+                    double mucGiamGia = Double.parseDouble(parts[7]);
+                    danhSach.add(new KhachHangVIP(hoTen, ngaySinh, diaChi, soDienThoai, idKhachHang,
+                            mucGiamGia, diemTichLuy, tongTienMua));
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Loi doc file: " + e.getMessage());
+        }
+        return danhSach;
+    }
 }
+
