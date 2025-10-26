@@ -59,7 +59,7 @@ public class Sach {
 		return gia;
 	}
 
-	public int getNamXuatBan() {
+	public int getNamXuatBan() { 
 		return namXuatBan;
 	}
 
