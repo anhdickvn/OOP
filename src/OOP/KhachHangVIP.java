@@ -1,7 +1,7 @@
 package OOP;
 import java.io.*;
 import java.util.*;
-class KhachHangVIP extends KhachHang {
+class KhachHangVIP extends KhachHang {  
 	private double mucGiamGia;
 	private double tongTienMua;
 	private int diemTichLuy;
