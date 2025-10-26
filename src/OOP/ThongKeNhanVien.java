@@ -8,15 +8,13 @@ public class ThongKeNhanVien {
         return NhanVien.dsNV;
     }
 
-    // ================== THỐNG KÊ THEO DOANH THU ==================
     public void thongKeNhanVienTheoDoanhThu() {
         NhanVien[] dsNhanVien = getDsNhanVien();
         if (dsNhanVien == null || dsNhanVien.length == 0) {
-            System.out.println("Chua co du lieu nhan vien!");
+            System.out.println("Chưa có dữ liệu!");
             return;
         }
 
-        // Sắp xếp tăng dần theo Doanh thu
         for (int i = 0; i < dsNhanVien.length - 1; i++) {
             for (int j = 0; j < dsNhanVien.length - 1 - i; j++) {
                 if (dsNhanVien[j].getDoanhThu() > dsNhanVien[j + 1].getDoanhThu()) {
@@ -26,7 +24,7 @@ public class ThongKeNhanVien {
                 }
             }
         }
-        System.out.println("===THONG KE NHAN VIEN CO DOANH THU TANG DAN===");
+        System.out.println("===DANH SÁCH NHÂN VIÊN THEO DOANH THU  ===");
         System.out.printf("\n%-15s| %-20s| %-15s| %-15s| %-10s\n",
         "Mã NV", "Họ tên", "Chức vụ", "Ngày sinh", "Doanh thu");
         System.out.println("------------------------------------------------------------------------------------------");
@@ -45,7 +43,7 @@ public class ThongKeNhanVien {
     public void thongKeTuoiTangDan() {
         NhanVien[] dsNhanVien = getDsNhanVien();
         if (dsNhanVien == null || dsNhanVien.length == 0) {
-            System.out.println("Chua co du lieu nhan vien!");
+            System.out.println("Chưa có dữ liệu!");
             return;
         }
 
@@ -64,7 +62,7 @@ public class ThongKeNhanVien {
             }
         }
 
-        System.out.println("\n=== DANH SACH NHAN VIEN SAP XEP TUOI TANG DAN ===");
+        System.out.println("\n=== DANH SÁCH NHÂN VIÊN SẮP XẾP THEO TUỔI ===");
         System.out.printf("\n%-15s| %-20s| %-15s| %-15s| %-10s\n",
         "Mã NV", "Họ tên", "Ngày sinh", "Chức vụ", "Tuổi");
         System.out.println("------------------------------------------------------------------------");
@@ -95,16 +93,16 @@ public class ThongKeNhanVien {
     public void thongKeTheoChucVu() {
         NhanVien[] dsNhanVien = getDsNhanVien();
         if (dsNhanVien == null || dsNhanVien.length == 0) {
-            System.out.println("Chua co du lieu nhan vien!");
+            System.out.println("Chưa có dữ liệu!");
             return;
         }
 
         Scanner sc = new Scanner(System.in);
-        System.out.print("Nhap chuc vu can thong ke (VD: Bao ve, Thu ngan, Ban hang): ");
+        System.out.print("Nhập chức vụ cần thống kê (VD: Bao ve, Thu ngan, Ban Hang): ");
         String cv = sc.nextLine();
 
         boolean timThay = false;
-        System.out.println("\n=== DANH SACH NHAN VIEN CO CHUC VU: " + cv.toUpperCase() + " ===");
+        System.out.println("\n=== DANH SÁCH NHÂN VIÊN CÓ CHỨC VỤ: " + cv.toUpperCase() + " ===");
         System.out.printf("\n%-15s| %-20s| %-15s| %-15s\n",
         "Mã NV", "Họ tên", "Chức vụ", "Ngày sinh");
         System.out.println("--------------------------------------------------------------");
@@ -121,7 +119,7 @@ public class ThongKeNhanVien {
         }
 
         if (!timThay) {
-            System.out.println("Khong co nhan vien nao giu chuc vu: " + cv);
+            System.out.println("Không có nhân viên nào giữ chức vụ: " + cv);
         }
 
     }
