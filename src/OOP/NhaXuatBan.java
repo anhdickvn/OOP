@@ -3,7 +3,6 @@ package OOP;
 public class NhaXuatBan {
 	private String idNhaXuatBan;
 	private String tenNhaXuatBan;
-	private String diaChi;
 
 	public NhaXuatBan() {
 	}
@@ -11,7 +10,6 @@ public class NhaXuatBan {
 	public NhaXuatBan(String idNhaXuatBan, String tenNhaXuatBan, String diaChi) {
 		this.idNhaXuatBan = idNhaXuatBan;
 		this.tenNhaXuatBan = tenNhaXuatBan;
-		this.diaChi = diaChi;
 	}
 
 	public String getIdNhaXuatBan() {
@@ -30,15 +28,7 @@ public class NhaXuatBan {
 		this.tenNhaXuatBan = tenNhaXuatBan;
 	}
 
-	public String getDiaChi() {
-		return diaChi;
-	}
-
-	public void setDiaChi(String diaChi) {
-		this.diaChi = diaChi;
-	}
-
 	public String toString() {
-		return idNhaXuatBan + " - " + tenNhaXuatBan + " - " + diaChi;
+		return idNhaXuatBan + " - " + tenNhaXuatBan;
 	}
 }
