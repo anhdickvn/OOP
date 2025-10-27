@@ -1,5 +1,5 @@
 package OOP;
 
 public interface IGiamGia {
-	public double tinhGiamGia();
+	public double tinhGiamGia(double tongTien);
 }
