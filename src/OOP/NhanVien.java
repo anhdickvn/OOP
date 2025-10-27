@@ -3,6 +3,8 @@ package OOP;
 
 
 
+
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -70,39 +72,14 @@ public class NhanVien extends ConNguoi {
 		this.ca = ca;
 	}
 
-    public static void NhapNhanVien() {
-    Scanner sc = new Scanner(System.in);
-    System.out.print("Nhập số lượng nhân viên muốn thêm: ");
-    int n = Integer.parseInt(sc.nextLine());
-
-    try (BufferedWriter bw = new BufferedWriter(new FileWriter("NhanVien.txt", true))) { // true = ghi nối tiếp
-        for (int i = 0; i < n; i++) {
-            System.out.println("\n--- Nhập nhân viên thứ " + (i + 1) + " ---");
-            System.out.print("Họ tên: ");
-            String hoTen = sc.nextLine();
-            System.out.print("Ngày sinh: ");
-            String ngaySinh = sc.nextLine();
-            System.out.print("Địa chỉ: ");
-            String diaChi = sc.nextLine();
-            System.out.print("Số điện thoại: ");
-            String soDT = sc.nextLine();
-            System.out.print("ID nhân viên: ");
-            String id = sc.nextLine();
-            System.out.print("Lương: ");
-            double luong = Double.parseDouble(sc.nextLine());
-            System.out.print("Chức vụ: ");
-            String chucVu = sc.nextLine();
-            System.out.print("Ca làm: ");
-            String ca = sc.nextLine();
-            System.out.print("Doanh thu: ");
-            double doanhThu = Double.parseDouble(sc.nextLine());
-
-            String line = hoTen + ";" + ngaySinh + ";" + diaChi + ";" + soDT + ";" +
-                          id + ";" + luong + ";" + chucVu + ";" + ca + ";" + doanhThu;
+    public static void ghiFileNhanVien(NhanVien[] danhSach) {
+    try (BufferedWriter bw = new BufferedWriter(new FileWriter("NhanVien.txt"))) {
+        for (NhanVien nv : danhSach) {
+            String line = nv.getHoTen() + ";" + nv.getNgaySinh() + ";" + nv.getDiaChi() + ";" + nv.getSoDienThoai() + ";" +
+                          nv.getIdNhanVien() + ";" + nv.getLuong() + ";" + nv.getChucVu() + ";" + nv.getCa() + ";" + nv.getDoanhThu();
             bw.write(line);
             bw.newLine();
         }
-        System.out.println(" Ghi file thành công vào NhanVien.txt");
     } catch (Exception e) {
         System.out.println(" Lỗi khi ghi file: " + e.getMessage());
     }
