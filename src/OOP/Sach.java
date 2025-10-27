@@ -435,30 +435,7 @@ class Sach {
 
 public class OOP {
 	public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int luaChon;
-
-        do {
-            System.out.println("\n===== HỆ THỐNG QUẢN LÝ THƯ VIỆN =====");
-            System.out.println("1. Quản lý sách");
-            System.out.println("0. Thoát chương trình");
-            System.out.print("👉 Chọn chức năng: ");
-            luaChon = Integer.parseInt(sc.nextLine());
-
-            switch (luaChon) {
-                case 1:
-                    Sach.chucNangSach();
-                    break;
-                case 0:
-                    System.out.println("📘 Cảm ơn bạn đã sử dụng chương trình!");
-                    break;
-                default:
-                    System.out.println("❌ Lựa chọn không hợp lệ!");
-            }
-
-        } while (luaChon != 0);
-
-        sc.close();
+        Sach.ChucNangSach();
     }
 }
 
