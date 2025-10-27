@@ -33,13 +33,14 @@ public class DanhSachConNguoi {
     
     public static void timKiemNhanVien() {
     Scanner sc = new Scanner(System.in);
+    System.out.println("Tìm kiếm thông tin nhân viên:");
     System.out.print("Nhập từ khóa (ID NV / Tên / Chức vụ / Ca): ");
     String tuKhoa = sc.nextLine().toLowerCase();
 
     NhanVien[] ds = NhanVien.dsNV;
     boolean timThay = false;
 
-    System.out.println("==== KẾT QUẢ TÌM KIẾM NHÂN VIÊN ====");
+    System.out.println("=============== KẾT QUẢ TÌM KIẾM NHÂN VIÊN ===============");
     System.out.printf("%-20s| %-12s| %-15s| %-12s| %-10s| %-10s| %-8s| %-12s\n",
         "Họ Tên", "Ngày Sinh", "Địa Chỉ", "SĐT",
         "ID NV", "Chức vụ", "Ca", "Doanh Thu");
@@ -67,6 +68,7 @@ public class DanhSachConNguoi {
 
     public static void timKiemQuanLy() {
         Scanner sc = new Scanner(System.in);
+        System.out.println("Tìm kiếm thông tin quản lý:");
         System.out.print("Nhập từ khóa (ID QL / Tên / Khu làm việc): ");
         String tuKhoa = sc.nextLine().toLowerCase();
 
@@ -125,7 +127,6 @@ public class DanhSachConNguoi {
                 System.out.println("6. Chức vụ      (Hiện tại: " + nv.getChucVu() + ")");
                 System.out.println("7. Ca làm       (Hiện tại: " + nv.getCa() + ")");
                 System.out.println("8. Doanh thu    (Hiện tại: " + nv.getDoanhThu() + ")");
-                System.out.println("9. Thêm nhân viên mới ");
                 System.out.println("0. Lưu và thoát");
                 System.out.print("👉 Chọn mục bạn muốn sửa: ");
                 choice = Integer.parseInt(sc.nextLine());
@@ -163,8 +164,6 @@ public class DanhSachConNguoi {
                         System.out.print("Nhập doanh thu mới: ");
                         nv.setDoanhThu(Double.parseDouble(sc.nextLine()));
                         break;
-                    case 9:
-                        NhanVien.NhapNhanVien();
                     case 0:
                         System.out.println(" Đang lưu dữ liệu...");
                         ghiFileNhanVien(dsNV);
@@ -202,7 +201,6 @@ public static void ChinhSuaQuanLy() {
                 System.out.println("4. Số điện thoại(Hiện tại: " + ql.getSoDienThoai() + ")");
                 System.out.println("5. Lương        (Hiện tại: " + ql.getLuong() + ")");
                 System.out.println("6. Khu làm việc      (Hiện tại: " + ql.getKhuLamViec() + ")");
-                System.out.println("7. Thêm nhân viên mới ");
                 System.out.println("0. Lưu và thoát");
                 System.out.print(" Chọn mục bạn muốn sửa: ");
                 choice = Integer.parseInt(sc.nextLine());
@@ -232,8 +230,6 @@ public static void ChinhSuaQuanLy() {
                         System.out.print("Nhập khu vực làm việc mới: ");
                         ql.setKhuLamViec(sc.nextLine());
                         break;
-                    case 7:
-                         QuanLy.NhapQuanLy();
                     case 0:
                         System.out.println(" Đang lưu dữ liệu...");
                         ghiFileQuanLy(dsQL);
@@ -252,7 +248,65 @@ public static void ChinhSuaQuanLy() {
     }
 }
 
+public static void ChucNangNhanVien(){
+     Scanner sc = new Scanner(System.in);
+    int choice;
+            do {
+                System.out.println("\n===== CHỌN CHỨC NĂNG =====");
+                System.out.println("1. Thêm Nhân Viên Mới");
+                System.out.println("2. Chỉnh sửa thông tin Nhân Viên");
+                System.out.println("0. Lưu và thoát");
+                System.out.print(" Chọn mục bạn muốn sửa: ");
+                choice = Integer.parseInt(sc.nextLine());
+
+                switch (choice) {
+                    case 1:
+                        NhanVien.NhapNhanVien();
+                        break;
+                    case 2:
+                        chinhSuaNhanVien();
+                        break;
+                    case 0:
+                        System.out.println(" Đang lưu dữ liệu...");
+                        System.out.println(" Cập nhật thành công!");
+                        break;
+                    default:
+                        System.out.println("Lựa chọn không hợp lệ, vui lòng nhập lại!");
+                }
+            } while (choice != 0);
+}
+    public static void ChucNangQuanLy(){
+     Scanner sc = new Scanner(System.in);
+    int choice;
+            do {
+                System.out.println("\n===== CHỌN CHỨC NĂNG =====");
+                System.out.println("1. Thêm Quản Lý Mới");
+                System.out.println("2. Chỉnh sửa thông tin Quản Lý");
+                System.out.println("0. Lưu và thoát");
+                System.out.print(" Chọn mục bạn muốn sửa: ");
+                choice = Integer.parseInt(sc.nextLine());
+
+                switch (choice) {
+                    case 1:
+                        QuanLy.NhapQuanLy();;
+                        break;
+                    case 2:
+                        ChinhSuaQuanLy();
+                        break;
+                    case 0:
+                        System.out.println(" Đang lưu dữ liệu...");
+                        System.out.println(" Cập nhật thành công!");
+                        break;
+                    default:
+                        System.out.println("Lựa chọn không hợp lệ, vui lòng nhập lại!");
+                }
+            } while (choice != 0);
+}
    
 }
+
+
+
+
 
 
