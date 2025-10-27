@@ -49,35 +49,15 @@ public class QuanLy extends ConNguoi {
 		this.khuLamViec = khuLamViec;
 	}
 
-    public static void NhapQuanLy() {
-    Scanner sc = new Scanner(System.in);
-    System.out.print("Nhập số lượng quản lý muốn thêm: ");
-    int n = Integer.parseInt(sc.nextLine());
-
-    try (BufferedWriter bw = new BufferedWriter(new FileWriter("QuanLy.txt", true))) { // true = ghi nối tiếp
-        for (int i = 0; i < n; i++) {
-            System.out.println("\n--- Nhập quản lý thứ " + (i + 1) + " ---");
-            System.out.print("Họ tên: ");
-            String hoTen = sc.nextLine();
-            System.out.print("Ngày sinh: ");
-            String ngaySinh = sc.nextLine();
-            System.out.print("Địa chỉ: ");
-            String diaChi = sc.nextLine();
-            System.out.print("Số điện thoại: ");
-            String soDT = sc.nextLine();
-            System.out.print("ID quản lý: ");
-            String id = sc.nextLine();
-            System.out.print("Lương: ");
-            double luong = Double.parseDouble(sc.nextLine());
-            System.out.print("Khu làm Việc: ");
-            String khuLamViec = sc.nextLine();
-
-            String line = hoTen + ";" + ngaySinh + ";" + diaChi + ";" + soDT + ";" +
-                          id + ";" + luong + ";" + khuLamViec ;
+  
+    public static void ghiFileQuanLy(QuanLy[] danhSach) {
+    try (BufferedWriter bw = new BufferedWriter(new FileWriter("QuanLy.txt"))) {
+        for (QuanLy ql : danhSach) {
+            String line = ql.getHoTen() + ";" + ql.getNgaySinh() + ";" + ql.getDiaChi() + ";" + ql.getSoDienThoai() + ";" +
+                          ql.getIdQuanLy() + ";" + ql.getLuong() + ";" + ql.getKhuLamViec();
             bw.write(line);
             bw.newLine();
         }
-        System.out.println(" Ghi file thành công vào QuanLy.txt");
     } catch (Exception e) {
         System.out.println(" Lỗi khi ghi file: " + e.getMessage());
     }
