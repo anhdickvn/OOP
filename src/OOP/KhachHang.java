@@ -5,7 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
 
-public class KhachHang {
+public class KhachHang extends ConNguoi {
 	private int status; // 1 = Thường, 2 = VIP
 	private String idKhachHang;
 	private String hoTen;
@@ -19,53 +19,50 @@ public class KhachHang {
 	public KhachHang() {
 	}
 
-	public KhachHang(int status, String id, String hoTen, String ngaySinh, String diaChi, String sdt,
+	public KhachHang(int status, String id, String hoTen, String ngaySinh, String diaChi, String soDienThoai,
 			double tongChiTieu) {
+		super(hoTen, ngaySinh, diaChi, soDienThoai);
 		this.status = status;
 		this.idKhachHang = id;
-		this.hoTen = hoTen;
-		this.ngaySinh = ngaySinh;
 		this.diaChi = diaChi;
-		this.soDienThoai = sdt;
 		this.tongChiTieu = tongChiTieu;
 		capNhatUuDai();
 	}
 
-	// ===== Getter/Setter =====
 	public int getStatus() {
 		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 
 	public String getIdKhachHang() {
 		return idKhachHang;
 	}
 
-	public String getHoTen() {
-		return hoTen;
-	}
-
-	public String getNgaySinh() {
-		return ngaySinh;
-	}
-
-	public String getDiaChi() {
-		return diaChi;
-	}
-
-	public String getSoDienThoai() {
-		return soDienThoai;
-	}
-
-	public double getTongChiTieu() {
-		return tongChiTieu;
+	public void setIdKhachHang(String idKhachHang) {
+		this.idKhachHang = idKhachHang;
 	}
 
 	public int getDiemTichLuy() {
 		return diemTichLuy;
 	}
 
+	public void setDiemTichLuy(int diemTichLuy) {
+		this.diemTichLuy = diemTichLuy;
+	}
+
 	public double getMucGiamGia() {
 		return mucGiamGia;
+	}
+
+	public void setMucGiamGia(double mucGiamGia) {
+		this.mucGiamGia = mucGiamGia;
+	}
+
+	public double getTongChiTieu() {
+		return tongChiTieu;
 	}
 
 	public void setTongChiTieu(double tongChiTieu) {
@@ -73,7 +70,6 @@ public class KhachHang {
 		capNhatUuDai();
 	}
 
-	// ===== Cập nhật ưu đãi =====
 	public void capNhatUuDai() {
 		if (status == 1) { // Khách hàng thường
 			this.diemTichLuy = (int) (tongChiTieu / 10000);
