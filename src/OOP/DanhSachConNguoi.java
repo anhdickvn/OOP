@@ -156,7 +156,7 @@ public class DanhSachConNguoi {
 
     public static void chinhSuaNhanVien() {
     Scanner sc = new Scanner(System.in);
-    System.out.print("🔎 Nhập ID nhân viên cần chỉnh sửa: ");
+    System.out.print(" Nhập ID nhân viên cần chỉnh sửa: ");
     String id = sc.nextLine();
 
     NhanVien [] dsNV = NhanVien.dsNV;
@@ -176,7 +176,7 @@ public class DanhSachConNguoi {
                 System.out.println("7. Ca làm       (Hiện tại: " + nv.getCa() + ")");
                 System.out.println("8. Doanh thu    (Hiện tại: " + nv.getDoanhThu() + ")");
                 System.out.println("0. Lưu và thoát");
-                System.out.print("👉 Chọn mục bạn muốn sửa: ");
+                System.out.print(" Chọn mục bạn muốn sửa: ");
                 choice = Integer.parseInt(sc.nextLine());
 
                 switch (choice) {
