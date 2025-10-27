@@ -1,10 +1,15 @@
 package OOP;
 
+
+
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.Scanner;
 
 public class QuanLy extends ConNguoi {
+    public static QuanLy[] dsQL = new QuanLy[0];
 	private String idQuanLy;
 	private double luong;
 	private String khuLamViec;
@@ -12,9 +17,9 @@ public class QuanLy extends ConNguoi {
 	public QuanLy() {
 	}
 
-	public QuanLy(String hoTen, String maDinhDanh, String ngaySinh, String diaChi, String soDienThoai, String idQuanLy,
+	public QuanLy(String hoTen, String ngaySinh, String diaChi, String soDienThoai, String idQuanLy,
 			double luong, String khuLamViec) {
-		super(hoTen, maDinhDanh, ngaySinh, diaChi, soDienThoai);
+		super(hoTen, ngaySinh, diaChi, soDienThoai);
 		this.idQuanLy = idQuanLy;
 		this.luong = luong;
 		this.khuLamViec = khuLamViec;
@@ -44,8 +49,42 @@ public class QuanLy extends ConNguoi {
 		this.khuLamViec = khuLamViec;
 	}
 
+    public static void NhapQuanLy() {
+    Scanner sc = new Scanner(System.in);
+    System.out.print("Nhập số lượng quản lý muốn thêm: ");
+    int n = Integer.parseInt(sc.nextLine());
+
+    try (BufferedWriter bw = new BufferedWriter(new FileWriter("QuanLy.txt", true))) { // true = ghi nối tiếp
+        for (int i = 0; i < n; i++) {
+            System.out.println("\n--- Nhập quản lý thứ " + (i + 1) + " ---");
+            System.out.print("Họ tên: ");
+            String hoTen = sc.nextLine();
+            System.out.print("Ngày sinh: ");
+            String ngaySinh = sc.nextLine();
+            System.out.print("Địa chỉ: ");
+            String diaChi = sc.nextLine();
+            System.out.print("Số điện thoại: ");
+            String soDT = sc.nextLine();
+            System.out.print("ID quản lý: ");
+            String id = sc.nextLine();
+            System.out.print("Lương: ");
+            double luong = Double.parseDouble(sc.nextLine());
+            System.out.print("Khu làm Việc: ");
+            String khuLamViec = sc.nextLine();
+
+            String line = hoTen + ";" + ngaySinh + ";" + diaChi + ";" + soDT + ";" +
+                          id + ";" + luong + ";" + khuLamViec ;
+            bw.write(line);
+            bw.newLine();
+        }
+        System.out.println(" Ghi file thành công vào QuanLy.txt");
+    } catch (Exception e) {
+        System.out.println(" Lỗi khi ghi file: " + e.getMessage());
+    }
+}
+
   public static void xuatQuanLy() {
-    QuanLy dsQL[] = new QuanLy[0];
+    dsQL = new QuanLy[0];
     try {
         BufferedReader br = new BufferedReader(new FileReader("QuanLy.txt"));
         String line;
@@ -53,10 +92,10 @@ public class QuanLy extends ConNguoi {
             String[] st = line.split(";");
 
             QuanLy ql = new QuanLy(
-                st[0],st[1],st[2],st[3],st[4],  // Thuộc tính con người               
-                st[5],                 // idQuanLy
-                Double.parseDouble(st[6]), // luong
-                st[7]                  // khuLamViec
+                st[0],st[1],st[2],st[3],  // Thuộc tính con người               
+                st[4],                 // idQuanLy
+                Double.parseDouble(st[5]), // luong
+                st[6]                  // khuLamViec
             );
 
             dsQL = java.util.Arrays.copyOf(dsQL, dsQL.length + 1);
@@ -67,9 +106,8 @@ public class QuanLy extends ConNguoi {
         e.printStackTrace();
     }
 	System.out.println("===DANH SÁCH QUẢN LÝ===");
-    System.out.printf("%-20s| %-15s| %-12s| %-15s| %-12s| %-10s| %-12s| %-15s\n",
-        "Họ Tên", "Mã Định Danh", "Ngày Sinh", "Địa Chỉ", "SĐT",
-        "ID QL", "Lương", "Khu Làm Việc");
+    System.out.printf("%-20s| %-12s| %-15s| %-12s| %-10s| %-12s| %-15s\n",
+        "Họ Tên", "Ngày Sinh", "Địa Chỉ", "SĐT", "ID QL", "Lương", "Khu Làm Việc");
     System.out.println("-----------------------------------------------------------------------------------------------------------");
     for (QuanLy ql : dsQL) {
         System.out.println(ql);
@@ -77,8 +115,8 @@ public class QuanLy extends ConNguoi {
 }
 @Override
 public String toString() {
-    return String.format("%-20s| %-15s| %-12s| %-15s| %-12s| %-10s| %-12.0f| %-15s",
-        getHoTen(), getMaDinhDanh(), getNgaySinh(), getDiaChi(), getSoDienThoai(),
+    return String.format("%-20s| %-12s| %-15s| %-12s| %-10s| %-12.0f| %-15s",
+        getHoTen(), getNgaySinh(), getDiaChi(), getSoDienThoai(),
         idQuanLy, luong, khuLamViec);
 }			
 }
