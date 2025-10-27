@@ -108,7 +108,7 @@ public class DanhSachConNguoi {
 
     public static void chinhSuaNhanVien() {
     Scanner sc = new Scanner(System.in);
-    System.out.print("🔎 Nhập ID nhân viên cần chỉnh sửa: ");
+    System.out.print(" Nhập ID nhân viên cần chỉnh sửa: ");
     String id = sc.nextLine();
 
     NhanVien [] dsNV = NhanVien.dsNV;
