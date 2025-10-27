@@ -21,27 +21,18 @@ public class HoaDon {
 		Scanner sc = new Scanner(System.in);
 
 		idHoaDon = "HD" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
-		System.out.println("Mã hóa đơn được tạo tự động: " + idHoaDon);
+		System.out.println("Mã hóa đơn tự động: " + idHoaDon);
 
 		System.out.print("Nhập ID khách hàng: ");
 		idKhachHang = sc.nextLine();
 
-		System.out.print("Nhập mã CTKM (không có thì ấn enter để bỏ qua): ");
+		System.out.print("Nhập mã CTKM (Enter nếu không có): ");
 		idCTKM = sc.nextLine();
 
-		KhachHangVIP[] dsVIP = KhachHangVIP.docFile();
-		KhachHangVIP khVIP = null;
-		for (KhachHangVIP kh : dsVIP) {
-			if (kh.getIdKhachHang().equalsIgnoreCase(idKhachHang)) {
-				khVIP = kh;
-				break;
-			}
-		}
-
 		Sach[] kho = Sach.docKho();
-		System.out.println("================================== Sách trong kho ==================================");
+		System.out.println("========== Sách trong kho ==========");
 		for (int i = 0; i < kho.length; i++) {
-			System.out.printf("%d. %-35s | Giá: %-8.0f VND | SL: %d\n", i + 1, kho[i].getTenSach(), kho[i].getGia(),
+			System.out.printf("%d. %-30s | Giá: %-8.0f VND | SL: %d\n", i + 1, kho[i].getTenSach(), kho[i].getGia(),
 					kho[i].getSoLuong());
 		}
 
@@ -57,17 +48,14 @@ public class HoaDon {
 			while (true) {
 				System.out.print("Chọn số thứ tự sách muốn mua: ");
 				chon = Integer.parseInt(sc.nextLine()) - 1;
-
 				if (chon < 0 || chon >= kho.length) {
-					System.out.println("Sách không tồn tại! Vui lòng chọn lại.");
+					System.out.println("❌ Không tồn tại!");
 					continue;
 				}
-
 				if (kho[chon].getSoLuong() == 0) {
-					System.out.println("Sản phẩm này đã hết hàng! Vui lòng chọn sách khác.");
+					System.out.println("❌ Hết hàng!");
 					continue;
 				}
-
 				break;
 			}
 
@@ -75,11 +63,11 @@ public class HoaDon {
 			while (true) {
 				System.out.print("Nhập số lượng mua: ");
 				sl = Integer.parseInt(sc.nextLine());
-				if (sl <= 0)
-					System.out.println("Số lượng không hợp lệ! Phải lớn hơn 0.");
-				else if (sl > kho[chon].getSoLuong())
-					System.out.println("Không đủ hàng! Trong kho chỉ còn " + kho[chon].getSoLuong());
-				else
+				if (sl <= 0) {
+					System.out.println("❌ Số lượng phải > 0!");
+				} else if (sl > kho[chon].getSoLuong()) {
+					System.out.println("❌ Không đủ hàng! Còn " + kho[chon].getSoLuong());
+				} else
 					break;
 			}
 
@@ -88,71 +76,105 @@ public class HoaDon {
 			soLuong += sl;
 			tongTien += kho[chon].getGia() * sl;
 
-			int soLuongMoi = kho[chon].getSoLuong() - sl;
-			kho[chon].setSoLuong(soLuongMoi);
-			capNhatSoLuongTrongFile(kho[chon].getIdSach(), soLuongMoi);
+			int slMoi = kho[chon].getSoLuong() - sl;
+			kho[chon].setSoLuong(slMoi);
+			capNhatSoLuongTrongFile(kho[chon].getIdSach(), slMoi);
 		}
 
 		ngayInPhieu = java.time.LocalDate.now().toString();
-
-		System.out.println("\n=== HÓA ĐƠN ===");
-		System.out.println("Mã HĐ: " + idHoaDon);
-		System.out.println("Ngày in phiếu: " + ngayInPhieu);
-		System.out.println("Tổng SL: " + soLuong);
-		System.out.println("Tổng tiền (chưa thuế): " + tongTien + " VND");
-
 		double tongSauGiam = tongTien;
-		if (khVIP != null) {
-			System.out.println("Khách hàng VIP được giảm: " + khVIP.getMucGiamGia() + "%");
-			tongSauGiam = tongTien * (1 - khVIP.getMucGiamGia() / 100);
+
+		// ===== CTKM =====
+		ChuongTrinhKM kmHopLe = null;
+		if (!idCTKM.isEmpty()) {
+			ChuongTrinhKM[] dsKM = ChuongTrinhKM.docFile();
+			boolean timThay = false;
+			String today = java.time.LocalDate.now().toString();
+
+			for (ChuongTrinhKM km : dsKM) {
+				if (km.getIdCTKM().equalsIgnoreCase(idCTKM)) {
+					timThay = true;
+					if (today.compareTo(km.getNgayBatDau()) >= 0 && today.compareTo(km.getNgayKetThuc()) <= 0) {
+						kmHopLe = km;
+						break;
+					} else {
+						System.out.println("❌ Mã CTKM đã hết hạn!");
+					}
+				}
+			}
+			if (!timThay) {
+				System.out.println("❌ Không tìm thấy mã CTKM này!");
+			}
+			if (kmHopLe != null) {
+				System.out.println("Áp dụng CTKM: " + kmHopLe.getPhanTramKhuyenMai() + "%");
+				tongSauGiam -= kmHopLe.tinhGiamGia(tongTien);
+			}
+		}
+
+		// ===== GIẢM GIÁ KH =====
+		KhachHang kh = new KhachHang();
+		kh.setTongChiTieu(tongTien);
+		double mucGiam = kh.getMucGiamGia();
+		if (mucGiam > 0) {
+			System.out.println("Giảm giá KH: " + mucGiam + "%");
+			tongSauGiam *= (1 - mucGiam / 100);
 		}
 
 		double tongTienSauThue = tongSauGiam * 1.08;
+
+		System.out.println("\n=========== HÓA ĐƠN ===========");
+		System.out.println("Mã HĐ: " + idHoaDon);
+		System.out.println("Ngày in: " + ngayInPhieu);
+		System.out.println("Tổng SL: " + soLuong);
+		System.out.printf("Tổng tiền (chưa thuế): %.0f VND\n", tongTien);
+		if (kmHopLe != null)
+			System.out.println("Giảm CTKM: " + kmHopLe.getPhanTramKhuyenMai() + "%");
+		System.out.printf("Giảm KH: %.2f%%\n", mucGiam);
+		System.out.printf("Tổng sau giảm: %.0f VND\n", tongSauGiam);
 		System.out.println("Thuế VAT: 8%");
-		System.out.println("Tổng tiền sau thuế: " + tongTienSauThue + " VND");
+		System.out.printf("Tổng tiền sau thuế: %.0f VND\n", tongTienSauThue);
+		System.out.println("==============================");
+
 		try {
 			BufferedWriter bw = new BufferedWriter(new FileWriter("hoadon.txt", true));
 			bw.write("=========================================\n");
 			bw.write("MÃ HÓA ĐƠN: " + idHoaDon + "\n");
-			bw.write("NGÀY IN PHIẾU: " + ngayInPhieu + "\n");
-			bw.write("ID KHÁCH HÀNG: " + idKhachHang + "\n");
-			bw.write("MÃ CTKM: " + (idCTKM.isEmpty() ? "Không có" : idCTKM) + "\n");
-			bw.write("TỔNG SỐ LƯỢNG: " + soLuong + "\n");
-			bw.write("TỔNG TIỀN (CHƯA THUẾ): " + tongTien + " VND\n");
-			bw.write("THUẾ VAT: 8%\n");
-			bw.write("TỔNG TIỀN SAU THUẾ: " + tongTienSauThue + " VND\n");
-			if (khVIP != null)
-				bw.write("GIẢM GIÁ KH VIP: " + khVIP.getMucGiamGia() + "%\n");
+			bw.write("NGÀY IN: " + ngayInPhieu + "\n");
+			bw.write("ID KH: " + idKhachHang + "\n");
+			bw.write("CTKM: " + (idCTKM.isEmpty() ? "Không có" : idCTKM) + "\n");
+			bw.write("TỔNG SL: " + soLuong + "\n");
+			bw.write("TỔNG TIỀN: " + tongTien + " VND\n");
+			if (kmHopLe != null)
+				bw.write("GIẢM CTKM: " + kmHopLe.getPhanTramKhuyenMai() + "%\n");
+			bw.write("GIẢM KH: " + mucGiam + "%\n");
+			bw.write("VAT: 8%\n");
+			bw.write("TỔNG SAU THUẾ: " + tongTienSauThue + " VND\n");
 			bw.write("=========================================\n\n");
 			bw.close();
-			System.out.println("Đã ghi đầy đủ hóa đơn vào file hoadon.txt");
+			System.out.println("Xuất thành công hóa đơn");
 		} catch (Exception e) {
-			System.out.println("Lỗi khi ghi hóa đơn: " + e.getMessage());
+			System.out.println("❌ Lỗi ghi hóa đơn: " + e.getMessage());
 		}
 	}
 
 	private void capNhatSoLuongTrongFile(String idSach, int soLuongMoi) {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader("sach.txt"));
-			String noiDungMoi = "";
+			StringBuilder noiDungMoi = new StringBuilder();
 			String line;
-
 			while ((line = br.readLine()) != null) {
 				String[] parts = line.split(";");
-				if (parts[0].equals(idSach)) {
+				if (parts[0].equals(idSach))
 					parts[4] = String.valueOf(soLuongMoi);
-					line = String.join(";", parts);
-				}
-				noiDungMoi += line + "\n";
+				noiDungMoi.append(String.join(";", parts)).append("\n");
 			}
 			br.close();
 
-			BufferedWriter bw = new BufferedWriter(new FileWriter("test.txt"));
-			bw.write(noiDungMoi);
+			BufferedWriter bw = new BufferedWriter(new FileWriter("sach.txt"));
+			bw.write(noiDungMoi.toString());
 			bw.close();
-
 		} catch (Exception e) {
-			System.out.println("Lỗi cập nhật kho: " + e.getMessage());
+			System.out.println("❌ Lỗi cập nhật kho: " + e.getMessage());
 		}
 	}
 }
