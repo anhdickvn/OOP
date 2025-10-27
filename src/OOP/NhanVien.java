@@ -1,7 +1,11 @@
 package OOP;
 
 
+
+
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.FileReader;
 import java.util.Scanner;
 
@@ -16,9 +20,9 @@ public class NhanVien extends ConNguoi {
 	public NhanVien() {
 	}
 
-	public NhanVien(String hoTen, String maDinhDanh, String ngaySinh, String diaChi, String soDienThoai,
+	public NhanVien(String hoTen, String ngaySinh, String diaChi, String soDienThoai,
 			String idNhanVien, double luong, String chucVu, String ca, double doanhThu) {
-		super(hoTen, maDinhDanh, ngaySinh, diaChi, soDienThoai);
+		super(hoTen, ngaySinh, diaChi, soDienThoai);
 		this.idNhanVien = idNhanVien;
 		this.luong = luong;
 		this.chucVu = chucVu;
@@ -66,6 +70,44 @@ public class NhanVien extends ConNguoi {
 		this.ca = ca;
 	}
 
+    public static void NhapNhanVien() {
+    Scanner sc = new Scanner(System.in);
+    System.out.print("Nhập số lượng nhân viên muốn thêm: ");
+    int n = Integer.parseInt(sc.nextLine());
+
+    try (BufferedWriter bw = new BufferedWriter(new FileWriter("NhanVien.txt", true))) { // true = ghi nối tiếp
+        for (int i = 0; i < n; i++) {
+            System.out.println("\n--- Nhập nhân viên thứ " + (i + 1) + " ---");
+            System.out.print("Họ tên: ");
+            String hoTen = sc.nextLine();
+            System.out.print("Ngày sinh: ");
+            String ngaySinh = sc.nextLine();
+            System.out.print("Địa chỉ: ");
+            String diaChi = sc.nextLine();
+            System.out.print("Số điện thoại: ");
+            String soDT = sc.nextLine();
+            System.out.print("ID nhân viên: ");
+            String id = sc.nextLine();
+            System.out.print("Lương: ");
+            double luong = Double.parseDouble(sc.nextLine());
+            System.out.print("Chức vụ: ");
+            String chucVu = sc.nextLine();
+            System.out.print("Ca làm: ");
+            String ca = sc.nextLine();
+            System.out.print("Doanh thu: ");
+            double doanhThu = Double.parseDouble(sc.nextLine());
+
+            String line = hoTen + ";" + ngaySinh + ";" + diaChi + ";" + soDT + ";" +
+                          id + ";" + luong + ";" + chucVu + ";" + ca + ";" + doanhThu;
+            bw.write(line);
+            bw.newLine();
+        }
+        System.out.println(" Ghi file thành công vào NhanVien.txt");
+    } catch (Exception e) {
+        System.out.println(" Lỗi khi ghi file: " + e.getMessage());
+    }
+}
+
  public static void xuatNhanVien() {
      dsNV = new NhanVien[0];
     try {
@@ -74,12 +116,12 @@ public class NhanVien extends ConNguoi {
         while ((line = br.readLine()) != null) {
             String[] st = line.split(";");
             NhanVien nv = new NhanVien(
-                st[0], st[1], st[2], st[3], st[4],    // Thuộc tính ConNguoi
-                st[5],                                // idNhanVien
-                Double.parseDouble(st[6]),            // luong
-                st[7],                                // chucVu
-                st[8],                                // ca
-                Double.parseDouble(st[9])             // doanhThu
+                st[0], st[1], st[2], st[3],     // Thuộc tính ConNguoi
+                st[4],                                // idNhanVien
+                Double.parseDouble(st[5]),            // luong
+                st[6],                                // chucVu
+                st[7],                                // ca
+                Double.parseDouble(st[8])             // doanhThu
             );
             dsNV = java.util.Arrays.copyOf(dsNV, dsNV.length + 1);
             dsNV[dsNV.length - 1] = nv;
@@ -89,8 +131,8 @@ public class NhanVien extends ConNguoi {
         e.printStackTrace();
     }
 	System.out.println("===DANH SÁCH NHÂN VIÊN==="); 
- 	System.out.printf("%-20s| %-15s| %-12s| %-10s| %-7s| %-7s| %-10s| %-10s| %-5s| %-12s\n",
-        "Họ Tên", "Ma Định Danh", "Ngày Sinh", "Địa chỉ", "SĐT", 
+ 	System.out.printf("%-20s|%-12s| %-10s| %-7s| %-7s| %-10s| %-10s| %-5s| %-12s\n",
+        "Họ Tên", "Ngày Sinh", "Địa chỉ", "SĐT", 
         "ID NV", "Lương", "Chức vụ", "Ca", "Doanh Thu");
     System.out.println("-----------------------------------------------------------------------------------------------------------");
     for (NhanVien nv : dsNV) {
@@ -99,8 +141,8 @@ public class NhanVien extends ConNguoi {
 }
 @Override
 public String toString() {
-    return String.format("%-20s| %-15s| %-12s| %-10s| %-7s| %-7s| %-10.0f| %-10s| %-5s| %-12.0f",
-        getHoTen(), getMaDinhDanh(), getNgaySinh(), getDiaChi(), getSoDienThoai(),
+    return String.format("%-20s|%-12s| %-10s| %-7s| %-7s| %-10.0f| %-10s| %-5s| %-12.0f",
+        getHoTen(), getNgaySinh(), getDiaChi(), getSoDienThoai(),
         idNhanVien, luong, chucVu, ca, doanhThu);
 }
 }
