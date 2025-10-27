@@ -4,33 +4,79 @@ import java.util.Scanner;
 
 public class DanhSachConNguoi {
 
-    
-    public static void ghiFileNhanVien(NhanVien[] danhSach) {
-    try (BufferedWriter bw = new BufferedWriter(new FileWriter("NhanVien.txt"))) {
-        for (NhanVien nv : danhSach) {
-            String line = nv.getHoTen() + ";" + nv.getNgaySinh() + ";" + nv.getDiaChi() + ";" + nv.getSoDienThoai() + ";" +
-                          nv.getIdNhanVien() + ";" + nv.getLuong() + ";" + nv.getChucVu() + ";" + nv.getCa() + ";" + nv.getDoanhThu();
+    public static void ThemNhanVien() {
+    Scanner sc = new Scanner(System.in);
+    System.out.print("Nhập số lượng nhân viên muốn thêm: ");
+    int n = Integer.parseInt(sc.nextLine());
+
+    try (BufferedWriter bw = new BufferedWriter(new FileWriter("NhanVien.txt", true))) { // true = ghi nối tiếp
+        for (int i = 0; i < n; i++) {
+            System.out.println("\n--- Nhập nhân viên thứ " + (i + 1) + " ---");
+            System.out.print("Họ tên: ");
+            String hoTen = sc.nextLine();
+            System.out.print("Ngày sinh: ");
+            String ngaySinh = sc.nextLine();
+            System.out.print("Địa chỉ: ");
+            String diaChi = sc.nextLine();
+            System.out.print("Số điện thoại: ");
+            String soDT = sc.nextLine();
+            System.out.print("ID nhân viên: ");
+            String id = sc.nextLine();
+            System.out.print("Lương: ");
+            double luong = Double.parseDouble(sc.nextLine());
+            System.out.print("Chức vụ: ");
+            String chucVu = sc.nextLine();
+            System.out.print("Ca làm: ");
+            String ca = sc.nextLine();
+            System.out.print("Doanh thu: ");
+            double doanhThu = Double.parseDouble(sc.nextLine());
+
+            String line = hoTen + ";" + ngaySinh + ";" + diaChi + ";" + soDT + ";" +
+                          id + ";" + luong + ";" + chucVu + ";" + ca + ";" + doanhThu;
             bw.write(line);
             bw.newLine();
         }
+        System.out.println(" Ghi file thành công vào NhanVien.txt");
     } catch (Exception e) {
         System.out.println(" Lỗi khi ghi file: " + e.getMessage());
     }
 }
 
- public static void ghiFileQuanLy(QuanLy[] danhSach) {
-    try (BufferedWriter bw = new BufferedWriter(new FileWriter("QuanLy.txt"))) {
-        for (QuanLy ql : danhSach) {
-            String line = ql.getHoTen() + ";" + ql.getNgaySinh() + ";" + ql.getDiaChi() + ";" + ql.getSoDienThoai() + ";" +
-                          ql.getIdQuanLy() + ";" + ql.getLuong() + ";" + ql.getKhuLamViec();
+  public static void ThemQuanLy() {
+    Scanner sc = new Scanner(System.in);
+    System.out.print("Nhập số lượng quản lý muốn thêm: ");
+    int n = Integer.parseInt(sc.nextLine());
+
+    try (BufferedWriter bw = new BufferedWriter(new FileWriter("QuanLy.txt", true))) { // true = ghi nối tiếp
+        for (int i = 0; i < n; i++) {
+            System.out.println("\n--- Nhập quản lý thứ " + (i + 1) + " ---");
+            System.out.print("Họ tên: ");
+            String hoTen = sc.nextLine();
+            System.out.print("Ngày sinh: ");
+            String ngaySinh = sc.nextLine();
+            System.out.print("Địa chỉ: ");
+            String diaChi = sc.nextLine();
+            System.out.print("Số điện thoại: ");
+            String soDT = sc.nextLine();
+            System.out.print("ID quản lý: ");
+            String id = sc.nextLine();
+            System.out.print("Lương: ");
+            double luong = Double.parseDouble(sc.nextLine());
+            System.out.print("Khu làm Việc: ");
+            String khuLamViec = sc.nextLine();
+
+            String line = hoTen + ";" + ngaySinh + ";" + diaChi + ";" + soDT + ";" +
+                          id + ";" + luong + ";" + khuLamViec ;
             bw.write(line);
             bw.newLine();
         }
+        System.out.println(" Ghi file thành công vào QuanLy.txt");
     } catch (Exception e) {
         System.out.println(" Lỗi khi ghi file: " + e.getMessage());
     }
 }
-    
+
+
     public static void timKiemNhanVien() {
     Scanner sc = new Scanner(System.in);
     System.out.println("Tìm kiếm thông tin nhân viên:");
@@ -108,7 +154,7 @@ public class DanhSachConNguoi {
 
     public static void chinhSuaNhanVien() {
     Scanner sc = new Scanner(System.in);
-    System.out.print(" Nhập ID nhân viên cần chỉnh sửa: ");
+    System.out.print("🔎 Nhập ID nhân viên cần chỉnh sửa: ");
     String id = sc.nextLine();
 
     NhanVien [] dsNV = NhanVien.dsNV;
@@ -128,7 +174,7 @@ public class DanhSachConNguoi {
                 System.out.println("7. Ca làm       (Hiện tại: " + nv.getCa() + ")");
                 System.out.println("8. Doanh thu    (Hiện tại: " + nv.getDoanhThu() + ")");
                 System.out.println("0. Lưu và thoát");
-                System.out.print(" Chọn mục bạn muốn sửa: ");
+                System.out.print("👉 Chọn mục bạn muốn sửa: ");
                 choice = Integer.parseInt(sc.nextLine());
 
                 switch (choice) {
@@ -166,7 +212,7 @@ public class DanhSachConNguoi {
                         break;
                     case 0:
                         System.out.println(" Đang lưu dữ liệu...");
-                        ghiFileNhanVien(dsNV);
+                        NhanVien.ghiFileNhanVien(dsNV);
                         System.out.println(" Cập nhật thành công!");
                         break;
                     default:
@@ -232,7 +278,7 @@ public static void ChinhSuaQuanLy() {
                         break;
                     case 0:
                         System.out.println(" Đang lưu dữ liệu...");
-                        ghiFileQuanLy(dsQL);
+                        QuanLy.ghiFileQuanLy(dsQL);
                         System.out.println(" Cập nhật thành công!");
                         break;
                     default:
@@ -261,7 +307,7 @@ public static void ChucNangNhanVien(){
 
                 switch (choice) {
                     case 1:
-                        NhanVien.NhapNhanVien();
+                        ThemNhanVien();
                         break;
                     case 2:
                         chinhSuaNhanVien();
@@ -288,7 +334,7 @@ public static void ChucNangNhanVien(){
 
                 switch (choice) {
                     case 1:
-                        QuanLy.NhapQuanLy();;
+                        ThemQuanLy();
                         break;
                     case 2:
                         ChinhSuaQuanLy();
