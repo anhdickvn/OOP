@@ -221,7 +221,7 @@ public class KhachHang extends ConNguoi {
         String key = sc.nextLine().toLowerCase();
         boolean found = false;
         for (KhachHang kh : ds) {
-            if (kh.getIdKhachHang().toLowerCase().contains(key) || kh.getHoTen().toLowerCase().contains(key)) {
+            if (kh.getIdKhachHang().equalsIgnoreCase(key) || kh.getHoTen().equalsIgnoreCase(key)) {
                 found = true;
                 String loai = (kh.getStatus() == 1) ? "Thường" : "VIP";
                 System.out.printf("👉 %s | %s | %s | %s | %s | %s | %,10.0f | %d | %.2f%%%n",
