@@ -102,6 +102,7 @@ public class KhachHang extends ConNguoi {
 		}
 		return ds;
 	}
+	//===== Ghi File ======
 	 public static void ghiFile(KhachHang[] ds) {
         try (PrintWriter pw = new PrintWriter(new FileWriter("kh.txt"))) {
             for (KhachHang kh : ds) {
@@ -233,3 +234,4 @@ public class KhachHang extends ConNguoi {
         }
         if (!found) System.out.println("❌ Không tìm thấy khách hàng!");
     }
+}
