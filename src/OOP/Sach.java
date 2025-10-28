@@ -394,6 +394,82 @@ class Sach {
         	System.out.println("❌ Không tìm thấy sách phù hợp với từ khóa: " + tuKhoa);
     	}	
 	}
+	 public int thongKeSoLuongBanTheoHoaDon(int thang, int nam) {
+    int tongSoLuongBan = 0;
+    try (BufferedReader br = new BufferedReader(new FileReader("hoadon.txt"))) {
+        String line;
+        boolean dungThangNam = false; // kiểm tra hóa đơn có thuộc tháng/năm cần tìm không
+        boolean docChiTietSach = false; // bắt đầu đọc chi tiết sách
+
+        while ((line = br.readLine()) != null) {
+            // Kiểm tra ngày in hóa đơn
+            if (line.startsWith("NGÀY IN:")) {
+                String date = line.substring(8).trim(); // yyyy-MM-dd
+                java.time.LocalDate d = java.time.LocalDate.parse(date);
+                dungThangNam = (d.getMonthValue() == thang && d.getYear() == nam);
+                docChiTietSach = false;
+            }
+
+            // Khi gặp dòng bắt đầu chi tiết sách
+            if (dungThangNam && line.startsWith("CHI TIẾT SÁCH")) {
+                docChiTietSach = true;
+                continue;
+            }
+
+            // Đọc chi tiết sách
+            if (docChiTietSach && line.contains(";")) {
+                String[] parts = line.split(";");
+                if (parts.length >= 3) {
+                    String idSachTrongHD = parts[0].trim();
+                    int soLuongBan = Integer.parseInt(parts[2].trim());
+                    if (idSachTrongHD.equalsIgnoreCase(this.idSach)) {
+                        tongSoLuongBan += soLuongBan;
+                    }
+                }
+            }
+
+            // Kết thúc hóa đơn
+            if (line.contains("=========================================")) {
+                dungThangNam = false;
+                docChiTietSach = false;
+            }
+        }
+    } catch (Exception e) {
+        System.out.println("⚠️ Lỗi đọc file hóa đơn: " + e.getMessage());
+    }
+    return tongSoLuongBan;
+}
+
+
+public static void thongKeBanSachTheoHoaDon() {
+    Scanner sc = new Scanner(System.in);
+    Sach[] ds = Sach.docKho();
+
+    System.out.println("===== DANH SÁCH SÁCH =====");
+    for (Sach s : ds) {
+        System.out.println(s.getIdSach() + " - " + s.getTenSach());
+    }
+
+    System.out.print("\n👉 Nhập ID sách cần thống kê: ");
+    String id = sc.nextLine();
+
+    System.out.print("👉 Nhập tháng (ví dụ 10): ");
+    int thang = Integer.parseInt(sc.nextLine());
+
+    System.out.print("👉 Nhập năm (ví dụ 2025): ");
+    int nam = Integer.parseInt(sc.nextLine());
+
+    for (Sach s : ds) {
+        if (s.getIdSach().equalsIgnoreCase(id)) {
+            int soLuong = s.thongKeSoLuongBanTheoHoaDon(thang, nam);
+            System.out.println("\n📊 KẾT QUẢ THỐNG KÊ");
+            System.out.println("Sách: " + s.getTenSach());
+            System.out.println("Tháng " + thang + "/" + nam + " đã bán: " + soLuong + " quyển.");
+            return;
+        }
+    }
+    System.out.println("❌ Không tìm thấy sách có ID: " + id);
+}
 	public static void chucNangSach() {
     Scanner sc = new Scanner(System.in);
     Sach[] ds = Sach.docKho();
