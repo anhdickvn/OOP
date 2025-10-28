@@ -1,13 +1,14 @@
 package OOP;
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class KhachHang extends ConNguoi {
-	private int status; // 1 = Thường, 2 = VIP
+	private int status; 
 	private String idKhachHang;
 	private String hoTen;
 	private String ngaySinh;
@@ -102,8 +103,7 @@ public class KhachHang extends ConNguoi {
 		}
 		return ds;
 	}
-	//===== Ghi File ======
-	 public static void ghiFile(KhachHang[] ds) {
+    public static void ghiFile(KhachHang[] ds) {
         try (PrintWriter pw = new PrintWriter(new FileWriter("kh.txt"))) {
             for (KhachHang kh : ds) {
                 pw.printf("%d;%s;%s;%s;%s;%s;%.0f%n", kh.getStatus(), kh.getIdKhachHang(), kh.getHoTen(),
@@ -114,7 +114,6 @@ public class KhachHang extends ConNguoi {
         }
     }
 
-	// ===== Xuất bảng =====
 	public static void xuat() {
 		KhachHang[] ds = docFile();
 
@@ -135,9 +134,8 @@ public class KhachHang extends ConNguoi {
 		System.out.println(
 				"===============================================================================================================================");
 	}
-}
-//====Thêm Khách HàngHàng
- public static void them() {
+	   // ===== Thêm khách hàng =====
+    public static void them() {
         Scanner sc = new Scanner(System.in);
         KhachHang[] ds = docFile();
         System.out.print("Nhập ID khách hàng: ");
@@ -234,4 +232,46 @@ public class KhachHang extends ConNguoi {
         }
         if (!found) System.out.println("❌ Không tìm thấy khách hàng!");
     }
+    public static void Menu () {
+		Scanner sc = new Scanner(System.in);
+		int chon;
+		do {
+			System.out.println("\n========= MENU QUẢN LÝ KHÁCH HÀNG =========");
+			System.out.println("1. Xem danh sách khách hàng");
+			System.out.println("2. Thêm khách hàng");
+			System.out.println("3. Sửa thông tin khách hàng");
+			System.out.println("4. Xóa khách hàng");
+			System.out.println("5. Tìm kiếm khách hàng");
+			System.out.println("0. Thoát");
+			System.out.print("➡ Nhập lựa chọn: ");
+			chon = Integer.parseInt(sc.nextLine());
+
+			switch (chon) {
+				case 1:
+					xuat();
+					break;
+				case 2:
+					them();
+					break;
+				case 3:
+					sua();
+					break;
+				case 4:
+					xoa();
+					break;
+				case 5:
+					timKiem();
+					break;
+				case 0:
+					System.out.println("👋 Thoát chương trình!");
+					break;
+				default:
+					System.out.println("❌ Lựa chọn không hợp lệ!");
+			}
+		} while (chon != 0);
+	}
+	public static void main(String[] args) {
+		Menu();
+	}
 }
+
