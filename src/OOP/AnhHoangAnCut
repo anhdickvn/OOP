@@ -1,0 +1,765 @@
+package OOP;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Sach {
+	private String idSach;
+	private String tenSach;
+	private double gia;
+	private int namXuatBan;
+	private int soLuong;
+	private TacGia[] tacGia;
+	private TheLoai[] theLoai;
+	private NhaXuatBan nhaXuatBan;
+	private static double thueVAT = 0.08;
+
+	public Sach() {
+
+	}
+
+	public Sach(String idSach, String tenSach, double gia, int namXuatBan, int soLuong, NhaXuatBan nhaXuatBan,
+			TacGia[] tacGia, TheLoai[] theLoai) {
+		this.idSach = idSach;
+		this.tenSach = tenSach;
+		this.gia = gia;
+		this.namXuatBan = namXuatBan;
+		this.soLuong = soLuong;
+		this.nhaXuatBan = nhaXuatBan;
+		this.tacGia = tacGia;
+		this.theLoai = theLoai;
+	}
+
+	public String getIdSach() {
+		return idSach;
+	}
+
+	public void setIdSach(String idSach) {
+		this.idSach = idSach;
+	}
+
+	public String getTenSach() {
+		return tenSach;
+	}
+
+	public void setTenSach(String tenSach) {
+		this.tenSach = tenSach;
+	}
+
+	public double getGia() {
+		return gia;
+	}
+
+	public void setGia(double gia) {
+		this.gia = gia;
+	}
+
+	public int getNamXuatBan() {
+		return namXuatBan;
+	}
+
+	public void setNamXuatBan(int namXuatBan) {
+		this.namXuatBan = namXuatBan;
+	}
+
+	public int getSoLuong() {
+		return soLuong;
+	}
+
+	public void setSoLuong(int soLuong) {
+		this.soLuong = soLuong;
+	}
+
+	public TacGia[] getTacGia() {
+		return tacGia;
+	}
+
+	public void setTacGia(TacGia[] tacGia) {
+		this.tacGia = tacGia;
+	}
+
+	public TheLoai[] getTheLoai() {
+		return theLoai;
+	}
+
+	public void setTheLoai(TheLoai[] theLoai) {
+		this.theLoai = theLoai;
+	}
+
+	public NhaXuatBan getNhaXuatBan() {
+		return nhaXuatBan;
+	}
+
+	public void setNhaXuatBan(NhaXuatBan nhaXuatBan) {
+		this.nhaXuatBan = nhaXuatBan;
+	}
+
+	public static double getThueVAT() {
+		return thueVAT;
+	}
+
+	public static void setThueVAT(double thueVAT) {
+		Sach.thueVAT = thueVAT;
+	}
+
+	public double tinhTongTienSauThue(int soLuongMua) {
+		double tongTruocThue = gia * soLuongMua;
+		double tongSauThue = tongTruocThue * (1 + thueVAT);
+		return tongSauThue;
+	}
+
+	public static Sach[] docKho() {
+		Sach[] ds = new Sach[0];
+		try {
+			BufferedReader br = new BufferedReader(new FileReader("sach.txt"));
+			String line;
+
+			while ((line = br.readLine()) != null) {
+				String[] st = line.split(";");
+
+				NhaXuatBan nxb = new NhaXuatBan(st[5], st[6], st[7]);
+
+				String[] idTGs = st[8].split(",");
+				String[] tenTGs = st[9].split(",");
+				TacGia[] tgArr = new TacGia[tenTGs.length];
+				for (int i = 0; i < tenTGs.length; i++) {
+					tgArr[i] = new TacGia(idTGs[i].trim(), tenTGs[i].trim());
+				}
+
+				String[] idTLs = st[10].split(",");
+				String[] tenTLs = st[11].split(",");
+				TheLoai[] tlArr = new TheLoai[idTLs.length];
+				for (int i = 0; i < idTLs.length; i++) {
+					tlArr[i] = new TheLoai(idTLs[i].trim(), tenTLs[i].trim());
+				}
+
+				Sach s = new Sach(st[0], st[1], Double.parseDouble(st[2]), Integer.parseInt(st[3]),
+						Integer.parseInt(st[4]), nxb, tgArr, tlArr);
+
+				ds = Arrays.copyOf(ds, ds.length + 1);
+				ds[ds.length - 1] = s;
+			}
+
+			br.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return ds;
+	}
+
+	public static void ghiFileSach(Sach[] danhSach) {
+		try (BufferedWriter bw = new BufferedWriter(new FileWriter("sach.txt"))) {
+			for (Sach s : danhSach) {
+
+				String idTGs = "";
+				String tenTGs = "";
+				for (int i = 0; i < s.getTacGia().length; i++) {
+					idTGs += s.getTacGia()[i].getIdTacGia();
+					tenTGs += s.getTacGia()[i].getTenTacGia();
+					if (i != s.getTacGia().length - 1) {
+						idTGs += ",";
+						tenTGs += ",";
+					}
+				}
+
+				String idTLs = "";
+				String tenTLs = "";
+				for (int i = 0; i < s.getTheLoai().length; i++) {
+					idTLs += s.getTheLoai()[i].getIdTheLoai();
+					tenTLs += s.getTheLoai()[i].getTenTheLoai();
+					if (i != s.getTheLoai().length - 1) {
+						idTLs += ",";
+						tenTLs += ",";
+					}
+				}
+
+				String line = s.getIdSach() + ";" + s.getTenSach() + ";" + s.getGia() + ";" + s.getNamXuatBan() + ";"
+						+ s.getSoLuong() + ";" + s.getNhaXuatBan().getIdNhaXuatBan() + ";"
+						+ s.getNhaXuatBan().getTenNhaXuatBan() + ";" +
+
+						idTGs + ";" + tenTGs + ";" + idTLs + ";" + tenTLs;
+
+				bw.write(line);
+				bw.newLine();
+			}
+
+			System.out.println("✅ Ghi file Sach.txt thành công!");
+		} catch (Exception e) {
+			System.out.println("❌ Lỗi khi ghi file: " + e.getMessage());
+		}
+	}
+
+	public static void xuatKho() {
+		Sach[] ds = docKho();
+
+		if (ds.length == 0) {
+			System.out.println("❌ Không có sách nào trong kho!");
+			return;
+		}
+
+		System.out.println(
+				"\n=============================================== DANH SÁCH SÁCH TRONG KHO ===============================================");
+		System.out.printf("%-8s | %-30s | %-25s | %-40s | %-12s | %-6s | %-4s | %-25s\n", "ID", "Tên Sách", "Tác Giả",
+				"Thể Loại", "Giá (VND)", "Năm", "SL", "Nhà Xuất Bản");
+		System.out.println(
+				"--------------------------------------------------------------------------------------------------------------------------"
+						+ "---------------------------------------------------------------");
+
+		for (Sach s : ds) {
+			StringBuilder tgStr = new StringBuilder();
+			for (int i = 0; i < s.getTacGia().length; i++) {
+				tgStr.append(s.getTacGia()[i].getTenTacGia());
+				if (i != s.getTacGia().length - 1)
+					tgStr.append(", ");
+			}
+
+			StringBuilder tlStr = new StringBuilder();
+			for (int i = 0; i < s.getTheLoai().length; i++) {
+				tlStr.append(s.getTheLoai()[i].getTenTheLoai());
+				if (i != s.getTheLoai().length - 1)
+					tlStr.append(", ");
+			}
+
+			System.out.printf("%-8s | %-30s | %-25s | %-40s | %,12.0f | %-6d | %-4d | %-25s\n", s.getIdSach(),
+					s.getTenSach(), tgStr.toString(), tlStr.toString(), s.getGia(), s.getNamXuatBan(), s.getSoLuong(),
+					s.getNhaXuatBan().getTenNhaXuatBan());
+		}
+
+		System.out.println(
+				"=========================================================================================================================="
+						+ "==============================================================");
+	}
+
+	public static Sach[] themSach() {
+		Scanner sc = new Scanner(System.in);
+		Sach[] ds = docKho();
+		System.out.print("Nhập số lượng sách muốn thêm: ");
+		int n = Integer.parseInt(sc.nextLine());
+
+		for (int i = 0; i < n; i++) {
+			System.out.println("\n===== NHẬP THÔNG TIN SÁCH THỨ " + (i + 1) + " =====");
+
+			System.out.print("ID Sách: ");
+			String idSach = sc.nextLine();
+
+			System.out.print("Tên Sách: ");
+			String tenSach = sc.nextLine();
+
+			System.out.print("Giá: ");
+			double gia = Double.parseDouble(sc.nextLine());
+
+			System.out.print("Năm xuất bản: ");
+			int namXB = Integer.parseInt(sc.nextLine());
+
+			System.out.print("Số lượng: ");
+			int soLuong = Integer.parseInt(sc.nextLine());
+
+			System.out.println("Nhập thông tin Nhà Xuất Bản:");
+			System.out.print("ID NXB: ");
+			String idNXB = sc.nextLine();
+			System.out.print("Tên NXB: ");
+			String tenNXB = sc.nextLine();
+			System.out.print("Địa chỉ NXB: ");
+			String diaChiNXB = sc.nextLine();
+			NhaXuatBan nxb = new NhaXuatBan(idNXB, tenNXB, diaChiNXB);
+
+			System.out.print("Số lượng tác giả: ");
+			int soTG = Integer.parseInt(sc.nextLine());
+			TacGia[] tacGiaArr = new TacGia[soTG];
+			for (int j = 0; j < soTG; j++) {
+				System.out.println("Tác giả " + (j + 1) + ":");
+				System.out.print("  ID Tác Giả: ");
+				String idTG = sc.nextLine();
+				System.out.print("  Tên Tác Giả: ");
+				String tenTG = sc.nextLine();
+				tacGiaArr[j] = new TacGia(idTG, tenTG);
+			}
+
+			System.out.print("Số lượng thể loại: ");
+			int soTL = Integer.parseInt(sc.nextLine());
+			TheLoai[] theLoaiArr = new TheLoai[soTL];
+			for (int k = 0; k < soTL; k++) {
+				System.out.println("Thể loại " + (k + 1) + ":");
+				System.out.print("  ID Thể Loại: ");
+				String idTL = sc.nextLine();
+				System.out.print("  Tên Thể Loại: ");
+				String tenTL = sc.nextLine();
+				theLoaiArr[k] = new TheLoai(idTL, tenTL);
+			}
+
+			Sach s = new Sach(idSach, tenSach, gia, namXB, soLuong, nxb, tacGiaArr, theLoaiArr);
+
+			ds = Arrays.copyOf(ds, ds.length + 1);
+			ds[ds.length - 1] = s;
+		}
+
+		ghiFileSach(ds);
+		return ds;
+	}
+
+	public void SuaSach() {
+		Sach[] ds = docKho();
+		Scanner sc = new Scanner(System.in);
+		System.out.print("🔧 Nhập ID sách cần chỉnh sửa: ");
+		String id = sc.nextLine();
+		boolean timThay = false;
+
+		for (Sach s : ds) {
+			if (s.getIdSach().equalsIgnoreCase(id)) {
+				timThay = true;
+				int choice;
+				do {
+					System.out.println("\n===== CHỈNH SỬA SÁCH =====");
+					System.out.println("1. Tên sách (" + s.getTenSach() + ")");
+					System.out.println("2. Giá (" + s.getGia() + ")");
+					System.out.println("3. Năm XB (" + s.getNamXuatBan() + ")");
+					System.out.println("4. Số lượng (" + s.getSoLuong() + ")");
+					System.out.println("0. Lưu và thoát");
+					System.out.print("Chọn mục muốn sửa: ");
+					choice = Integer.parseInt(sc.nextLine());
+
+					switch (choice) {
+					case 1:
+						System.out.print("Nhập tên mới: ");
+						s.setTenSach(sc.nextLine());
+						break;
+					case 2:
+						System.out.print("Nhập giá mới: ");
+						s.setGia(Double.parseDouble(sc.nextLine()));
+						break;
+					case 3:
+						System.out.print("Nhập năm XB mới: ");
+						s.setNamXuatBan(Integer.parseInt(sc.nextLine()));
+						break;
+					case 4:
+						System.out.print("Nhập số lượng mới: ");
+						s.setSoLuong(Integer.parseInt(sc.nextLine()));
+						break;
+					case 0:
+						ghiFileSach(ds);
+						System.out.println("✅ Cập nhật thành công!");
+						break;
+					default:
+						System.out.println("❌ Lựa chọn không hợp lệ!");
+					}
+				} while (choice != 0);
+				break;
+			}
+		}
+
+		if (!timThay) {
+			System.out.println("❌ Không tìm thấy sách có ID: " + id);
+		}
+	}
+
+	public static void suaTheoID(String idSua) {
+		Scanner sc = new Scanner(System.in);
+		Sach[] ds = docKho();
+
+		boolean found = false;
+
+		for (Sach s : ds) {
+			if (s.getIdSach().equalsIgnoreCase(idSua.trim())) {
+				found = true;
+
+				while (true) {
+					System.out.println("\n===== CHỈNH SỬA THÔNG TIN SÁCH =====");
+					System.out.println("1. Tên sách       (Hiện tại: " + s.getTenSach() + ")");
+					System.out.println("2. Giá            (Hiện tại: " + s.getGia() + ")");
+					System.out.println("3. Năm xuất bản   (Hiện tại: " + s.getNamXuatBan() + ")");
+					System.out.println("4. Số lượng       (Hiện tại: " + s.getSoLuong() + ")");
+					System.out.println("5. Nhà xuất bản   (Hiện tại: " + s.getNhaXuatBan().getTenNhaXuatBan() + ")");
+					String tgStr = "";
+					for (int i = 0; i < s.getTacGia().length; i++) {
+						tgStr += s.getTacGia()[i].getIdTacGia() + " - " + s.getTacGia()[i].getTenTacGia();
+						if (i != s.getTacGia().length - 1)
+							tgStr += ", ";
+					}
+
+					String tlStr = "";
+					for (int i = 0; i < s.getTheLoai().length; i++) {
+						tlStr += s.getTheLoai()[i].getIdTheLoai() + " - " + s.getTheLoai()[i].getTenTheLoai();
+						if (i != s.getTheLoai().length - 1)
+							tlStr += ", ";
+					}
+
+					System.out.println("6. Tác giả        (Hiện tại: " + tgStr + ")");
+					System.out.println("7. Thể loại       (Hiện tại: " + tlStr + ")");
+					System.out.println("0. 💾 Lưu và thoát");
+					System.out.print("👉 Chọn mục bạn muốn sửa (0–7): ");
+
+					int chon = sc.nextInt();
+					sc.nextLine();
+
+					switch (chon) {
+					case 1: {
+						System.out.print("Nhập tên sách mới: ");
+						s.setTenSach(sc.nextLine());
+						break;
+					}
+					case 2: {
+						System.out.print("Nhập giá mới: ");
+						s.setGia(Double.parseDouble(sc.nextLine()));
+						break;
+					}
+					case 3: {
+						System.out.print("Nhập năm xuất bản mới: ");
+						s.setNamXuatBan(Integer.parseInt(sc.nextLine()));
+						break;
+					}
+					case 4: {
+						System.out.print("Nhập số lượng mới: ");
+						s.setSoLuong(Integer.parseInt(sc.nextLine()));
+						break;
+					}
+					case 5: {
+						System.out.print("Nhập tên nhà xuất bản mới: ");
+						String tenNxb = sc.nextLine();
+						s.getNhaXuatBan().setTenNhaXuatBan(tenNxb);
+						break;
+					}
+					case 6: {
+						System.out.print("Nhập số lượng tác giả mới: ");
+						int n = Integer.parseInt(sc.nextLine());
+						TacGia[] tgArr = new TacGia[n];
+						for (int i = 0; i < n; i++) {
+							System.out.print("ID tác giả " + (i + 1) + ": ");
+							String id = sc.nextLine();
+							System.out.print("Tên tác giả " + (i + 1) + ": ");
+							String ten = sc.nextLine();
+							tgArr[i] = new TacGia(id, ten);
+						}
+						s.setTacGia(tgArr);
+						break;
+					}
+					case 7: {
+						System.out.print("Nhập số lượng thể loại mới: ");
+						int n = Integer.parseInt(sc.nextLine());
+						TheLoai[] tlArr = new TheLoai[n];
+						for (int i = 0; i < n; i++) {
+							System.out.print("ID thể loại " + (i + 1) + ": ");
+							String id = sc.nextLine();
+							System.out.print("Tên thể loại " + (i + 1) + ": ");
+							String ten = sc.nextLine();
+							tlArr[i] = new TheLoai(id, ten);
+						}
+						s.setTheLoai(tlArr);
+						break;
+					}
+					case 0: {
+						System.out.println("💾 Đang lưu dữ liệu...");
+						ghiFileSach(ds);
+						System.out.println("✅ Đã cập nhật thông tin sách!");
+						return;
+					}
+					default:
+						System.out.println("❌ Lựa chọn không hợp lệ!");
+						break;
+					}
+				}
+			}
+		}
+
+		if (!found) {
+			System.out.println("❌ Không tìm thấy sách có ID: " + idSua);
+		}
+	}
+
+	public static void xoaTheoID(String id) {
+		Sach[] ds = docKho();
+		boolean found = false;
+		Sach[] dsMoi = new Sach[0];
+		for (Sach s : ds) {
+			if (s.getIdSach().equalsIgnoreCase(id)) {
+				found = true;
+				System.out.println("✅ Đã xóa sách: " + s.getTenSach());
+				continue;
+			}
+
+			dsMoi = Arrays.copyOf(dsMoi, dsMoi.length + 1);
+			dsMoi[dsMoi.length - 1] = s;
+		}
+
+		if (found) {
+			ghiFileSach(dsMoi);
+		} else {
+			System.out.println("❌ Không tìm thấy sách có ID: " + id);
+		}
+	}
+
+	public void inThongTin() {
+		System.out.println("───────────────────────────────");
+		System.out.println("📘 ID: " + idSach);
+		System.out.println("Tên: " + tenSach);
+		System.out.println("Năm: " + namXuatBan);
+		System.out.printf("Giá: %,.0f VND\n", gia);
+		System.out.println("Số lượng tồn: " + soLuong);
+		System.out.println("───────────────────────────────");
+	}
+
+	public static int nhapSoLuongHopLe(Sach s) {
+		Scanner sc = new Scanner(System.in);
+		int soLuong;
+		while (true) {
+			System.out.print("👉 Nhập số lượng muốn mua: ");
+			soLuong = sc.nextInt();
+			sc.nextLine();
+			if (soLuong <= 0) {
+				System.out.println("❌ Số lượng phải > 0. Nhập lại!");
+			} else if (soLuong > s.getSoLuong()) {
+				System.out.printf("❌ Chỉ còn %d cuốn trong kho. Nhập lại!\n", s.getSoLuong());
+			} else
+				break;
+		}
+		return soLuong;
+	}
+
+	// ======== Ghi đơn hàng vào file ========
+	public static void ghiDonHang(Sach s, int soLuong) {
+		double tongTien = soLuong * s.getGia();
+        String ngayDatHang = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		System.out.printf("💰 Tổng tiền: %,.0f VND\n", tongTien);
+
+		try (FileWriter fw = new FileWriter("DonHang.txt", true)) {
+			fw.write("ID:" + s.getIdSach() + " | Tên:" + s.getTenSach() + " | SL:" + soLuong + " | Giá:" + s.getGia()
+					+ " | Tổng:" + tongTien + "| Ngày đặt hàng: " + ngayDatHang + " | TRẠNG THÁI: CHỜ DUYỆT\n");
+			System.out.println("✅ Đã ghi đơn hàng (chờ duyệt).");
+		} catch (IOException e) {
+			System.out.println("❌ Lỗi ghi file: " + e.getMessage());
+		}
+	}
+
+	// ======== TÌM THEO ID ========
+	public static void timTheoID() {
+		Scanner sc = new Scanner(System.in);
+		System.out.print("Nhập ID sách: ");
+		String id = sc.nextLine().trim();
+		Sach[] ds = docKho();
+		Sach[] ketQua = new Sach[ds.length];
+		int count = 0;
+
+		for (Sach s : ds) {
+			if (s.getIdSach().equalsIgnoreCase(id)) {
+				ketQua[count++] = s;
+			}
+		}
+
+		if (count == 0) {
+			System.out.println("❌ Không tìm thấy sách có ID: " + id);
+			return;
+		}
+
+		System.out.println("\n===== KẾT QUẢ TÌM KIẾM =====");
+		for (int i = 0; i < count; i++) {
+			System.out.println((i + 1) + ". " + ketQua[i].getTenSach() + " (" + ketQua[i].getIdSach() + ")");
+		}
+
+		System.out.print("\n👉 Nhập số thứ tự sách bạn muốn mua (0 để thoát): ");
+		int chon = sc.nextInt();
+		sc.nextLine();
+
+		if (chon == 0)
+			return;
+		if (chon < 1 || chon > count) {
+			System.out.println("❌ Lựa chọn không hợp lệ!");
+			return;
+		}
+
+		Sach s = ketQua[chon - 1];
+		s.inThongTin();
+
+		if (s.getSoLuong() == 0) {
+			System.out.println("❌ Sách này đã hết hàng!");
+		} else {
+			int soLuong = nhapSoLuongHopLe(s);
+			ghiDonHang(s, soLuong);
+		}
+	}
+
+	// ======== TÌM THEO TÊN ========
+	public static void timTheoTen() {
+		Scanner sc = new Scanner(System.in);
+		System.out.print("Nhập tên sách: ");
+		String ten = sc.nextLine().toLowerCase();
+		Sach[] ds = docKho();
+		Sach[] ketQua = new Sach[ds.length];
+		int count = 0;
+
+		for (Sach s : ds) {
+			if (s.getTenSach().toLowerCase().contains(ten)) {
+				ketQua[count++] = s;
+			}
+		}
+
+		if (count == 0) {
+			System.out.println("❌ Không tìm thấy tên sách phù hợp!");
+			return;
+		}
+
+		System.out.println("\n===== KẾT QUẢ TÌM KIẾM =====");
+		for (int i = 0; i < count; i++) {
+			System.out.println((i + 1) + ". " + ketQua[i].getTenSach() + " (" + ketQua[i].getIdSach() + ")");
+		}
+
+		System.out.print("\n👉 Nhập số thứ tự sách bạn muốn mua (0 để thoát): ");
+		int chon = sc.nextInt();
+		sc.nextLine();
+
+		if (chon == 0)
+			return;
+		if (chon < 1 || chon > count) {
+			System.out.println("❌ Lựa chọn không hợp lệ!");
+			return;
+		}
+
+		Sach s = ketQua[chon - 1];
+		s.inThongTin();
+
+		if (s.getSoLuong() == 0) {
+			System.out.println("❌ Sách này đã hết hàng!");
+		} else {
+			int soLuong = nhapSoLuongHopLe(s);
+			ghiDonHang(s, soLuong);
+		}
+	}
+
+	// ======== TÌM THEO NĂM ========
+	public static void timTheoNam() {
+		Scanner sc = new Scanner(System.in);
+		System.out.print("Nhập năm xuất bản: ");
+		int nam = sc.nextInt();
+		sc.nextLine();
+		Sach[] ds = docKho();
+		Sach[] ketQua = new Sach[ds.length];
+		int count = 0;
+
+		for (Sach s : ds) {
+			if (s.getNamXuatBan() == nam) {
+				ketQua[count++] = s;
+			}
+		}
+
+		if (count == 0) {
+			System.out.println("❌ Không có sách xuất bản năm " + nam);
+			return;
+		}
+
+		System.out.println("\n===== KẾT QUẢ TÌM KIẾM =====");
+		for (int i = 0; i < count; i++) {
+			System.out.println((i + 1) + ". " + ketQua[i].getTenSach() + " (" + ketQua[i].getIdSach() + ")");
+		}
+
+		System.out.print("\n👉 Nhập số thứ tự sách bạn muốn mua (0 để thoát): ");
+		int chon = sc.nextInt();
+		sc.nextLine();
+
+		if (chon == 0)
+			return;
+		if (chon < 1 || chon > count) {
+			System.out.println("❌ Lựa chọn không hợp lệ!");
+			return;
+		}
+
+		Sach s = ketQua[chon - 1];
+		s.inThongTin();
+
+		if (s.getSoLuong() == 0) {
+			System.out.println("❌ Sách này đã hết hàng!");
+		} else {
+			int soLuong = nhapSoLuongHopLe(s);
+			ghiDonHang(s, soLuong);
+		}
+	}
+
+	// ======== TÌM THEO GIÁ ========
+	public static void timTheoGia() {
+		Scanner sc = new Scanner(System.in);
+		System.out.print("Nhập khoảng giá (min-max): ");
+		String input = sc.nextLine();
+		String[] parts = input.split("-");
+
+		if (parts.length != 2) {
+			System.out.println("❌ Sai định dạng! Ví dụ: 50000-150000");
+			return;
+		}
+
+		double min = Double.parseDouble(parts[0].trim());
+		double max = Double.parseDouble(parts[1].trim());
+
+		Sach[] ds = docKho();
+		Sach[] ketQua = new Sach[ds.length];
+		int count = 0;
+
+		for (Sach s : ds) {
+			if (s.getGia() >= min && s.getGia() <= max) {
+				ketQua[count++] = s;
+			}
+		}
+
+		if (count == 0) {
+			System.out.println("❌ Không có sách trong khoảng giá này!");
+			return;
+		}
+
+		System.out.println("\n===== KẾT QUẢ TÌM KIẾM =====");
+		for (int i = 0; i < count; i++) {
+			System.out.println((i + 1) + ". " + ketQua[i].getTenSach() + " (" + ketQua[i].getIdSach() + ")");
+		}
+
+		System.out.print("\n👉 Nhập số thứ tự sách bạn muốn mua (0 để thoát): ");
+		int chon = sc.nextInt();
+		sc.nextLine();
+
+		if (chon == 0)
+			return;
+		if (chon < 1 || chon > count) {
+			System.out.println("❌ Lựa chọn không hợp lệ!");
+			return;
+		}
+
+		Sach s = ketQua[chon - 1];
+		s.inThongTin();
+
+		if (s.getSoLuong() == 0) {
+			System.out.println("❌ Sách này đã hết hàng!");
+		} else {
+			int soLuong = nhapSoLuongHopLe(s);
+			ghiDonHang(s, soLuong);
+		}
+	}
+
+	// ======== MENU TÌM KIẾM ========
+	public static void menuTimKiem() {
+		Scanner sc = new Scanner(System.in);
+		int chon;
+		do {
+			System.out.println("\n===== MENU TÌM KIẾM SÁCH =====");
+			System.out.println("1. Theo ID");
+			System.out.println("2. Theo tên");
+			System.out.println("3. Theo năm xuất bản");
+			System.out.println("4. Theo giá");
+			System.out.println("0. Thoát");
+			System.out.print("Chọn: ");
+			chon = sc.nextInt();
+			sc.nextLine();
+
+			switch (chon) {
+			case 1 -> timTheoID();
+			case 2 -> timTheoTen();
+			case 3 -> timTheoNam();
+			case 4 -> timTheoGia();
+			case 0 -> System.out.println("⬅ Quay lại menu chính");
+			default -> System.out.println("❌ Lựa chọn không hợp lệ!");
+			}
+		} while (chon != 0);
+	}
+}
