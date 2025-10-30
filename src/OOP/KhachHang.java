@@ -166,11 +166,9 @@ public class KhachHang extends ConNguoi {
 		System.out.println("Đã thêm khách hàng mới!");
 	}
 
-	public static void suaTheoID() {
+	public static void suaTheoID(String idSua) {
 		Scanner sc = new Scanner(System.in);
 		KhachHang[] ds = docFile();
-		System.out.println("Nhập ID khách hàng: ");
-		String idSua = sc.nextLine();
 
 		for (KhachHang kh : ds) {
 			if (kh.getIdKhachHang().equalsIgnoreCase(idSua)) {
