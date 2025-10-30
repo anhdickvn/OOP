@@ -35,7 +35,8 @@ public class OOP {
 		} while (role.equals(""));
 		System.out.println("\n✅ Đăng nhập thành công với vai trò: " + role.toUpperCase());
 		boolean running = true;
-
+		System.out.print("Nhập ID: ");
+		String ID = sc.nextLine();
 		while (running) {
 			switch (role) {
 			case "quanly":
@@ -45,7 +46,6 @@ public class OOP {
 					System.out.println("1. Quản lý nhân viên");
 					System.out.println("2. Quản lý sách");
 					System.out.println("3. Xem doanh thu");
-					
 					System.out.println("0. Quay lại (Đăng xuất)");
 					System.out.print("Chọn: ");
 					chonQL = sc.nextInt();
@@ -75,15 +75,58 @@ public class OOP {
 				break;
 
 			case "nhanvien":
-				System.out.println("1. Bán sách");
-				System.out.println("2. Xem danh sách sách");
-				System.out.println("3. Lập hóa đơn");
-				System.out.println("0. Đăng xuất");
+				int choice;
+				do {
+					System.out.println("===Nhân viên vui lòng chọn 1 chức năng===");
+					System.out.println("1. Chỉnh sửa thông tin nhân viên ");
+					System.out.println("2. Xem thông tin sách trong kho ");
+					System.out.println("3. Tìm Sách");
+					System.out.println("4. Chỉnh Sửa Sách");
+					System.out.println("5. Tạo hóa đơn");
+					System.out.println("6. Sửa hóa đơn");
+					System.out.println("7. Duyệt đơn hàng");
+					System.out.println("0. Thoát");
+					choice = Integer.parseInt(sc.nextLine());
+					switch (choice) {
+					case 1:
+						System.out.println("Bạn đã chọn Chỉnh sửa thông tin nhân viên");
+						NhanVien.chinhSuaNhanVien();
+						break;
+					case 2:
+						System.out.println("Bạn đã chọn Xem thông tin sách trong kho");
+						Sach.xuatKho();
+						break;
+					case 3:
+						System.out.println("Bạn đã chọn Tìm sách");
+						Sach.menuTimKiem(ID);
+						break;
+					case 4:
+						System.out.println("Bạn đã chọn Sửa thông tin sách");
+						Sach.SuaSach();
+						break;
+					case 5:
+						System.out.println("Bạn đã chọn Tạo hóa đơn mới");
+						HoaDon.lapHoaDonTuDonHang();
+						break;
+					case 6:
+						System.out.println("Bạn đã chọn Sửa thông tin hóa đơn");
+						HoaDon.suaHoaDon();
+						break;
+					case 7:
+						System.out.println("Bạn đã chọn Duyệt đơn hàng");
+						HoaDon.duyetDonHang();
+						break;
+					case 0:
+						System.out.println(" Đang lưu dữ liệu...");
+						System.out.println(" Cập nhật thành công!");
+						break;
+					default:
+						System.out.println("Lựa chọn không hợp lệ, vui lòng nhập lại!");
+					}
+				} while (choice != 0);
 				break;
 
 			case "khachhang":
-				System.out.print("Nhập ID khách hàng: ");
-				String IDKH = sc.nextLine();
 				int chonKH;
 				do {
 					System.out.println("\n===== MENU KHÁCH HÀNG =====");
@@ -94,7 +137,7 @@ public class OOP {
 					System.out.println("0. Quay lại (Đăng xuất)");
 					System.out.print("Chọn: ");
 					chonKH = sc.nextInt();
-					sc.nextLine(); 
+					sc.nextLine();
 
 					switch (chonKH) {
 					case 1:
@@ -102,17 +145,18 @@ public class OOP {
 						break;
 
 					case 2:
-						Sach.menuTimKiem();
+						Sach.menuTimKiem(ID);
 						break;
 
 					case 3:
 						System.out.println("→ Chức năng xem hóa đơn cá nhân (đọc từ file hoadon.txt)");
+						KhachHang.xuatHoaDonTheoID(ID);
 						break;
 
 					case 4:
 						System.out.println("4. Thay đổi thông tin cá nhân");
-						KhachHang.suaTheoID(IDKH);	
-							
+						KhachHang.suaTheoID(ID);
+
 					case 0:
 						System.out.println("→ Quay lại màn hình đăng nhập...");
 						break;
