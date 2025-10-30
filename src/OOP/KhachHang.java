@@ -226,6 +226,42 @@ public class KhachHang extends ConNguoi {
 		System.out.println("❌ Không tìm thấy khách hàng có ID: " + idSua);
 	}
 
+	
+
+	public static void ThemKhachHang() {
+		Scanner sc = new Scanner(System.in);
+		System.out.print("Nhập số lượng khách hàng muốn thêm: ");
+		int n = Integer.parseInt(sc.nextLine());
+
+		try (FileWriter fw = new FileWriter("kh.txt", true); PrintWriter pw = new PrintWriter(fw)) {
+
+			for (int i = 0; i < n; i++) {
+				System.out.println("\n--- Nhập khách hàng thứ " + (i + 1) + " ---");
+				System.out.print("ID khách hàng: ");
+				String id = sc.nextLine();
+				System.out.print("Họ tên: ");
+				String hoTen = sc.nextLine();
+				System.out.print("Ngày sinh: ");
+				String ngaySinh = sc.nextLine();
+				System.out.print("Địa chỉ: ");
+				String diaChi = sc.nextLine();
+				System.out.print("Số điện thoại: ");
+				String soDT = sc.nextLine();
+				System.out.print("Trạng thái (1: Thường, 2: VIP): ");
+				int status = Integer.parseInt(sc.nextLine());
+				System.out.print("Tổng chi tiêu: ");
+				double tongChiTieu = Double.parseDouble(sc.nextLine());
+
+				// Ghi dòng mới vào file theo định dạng sẵn
+				pw.printf("%d;%s;%s;%s;%s;%s;%.0f%n", status, id, hoTen, ngaySinh, diaChi, soDT, tongChiTieu);
+			}
+
+			System.out.println("✅ Ghi file thành công vào kh.txt");
+		} catch (IOException e) {
+			System.out.println("❌ Lỗi khi ghi file: " + e.getMessage());
+		}
+	}
+
 	public static void ThemKhachHang() {
 		Scanner sc = new Scanner(System.in);
 		System.out.print("Nhập số lượng khách hàng muốn thêm: ");
@@ -319,4 +355,62 @@ public class KhachHang extends ConNguoi {
 			System.out.println("❌ Không tìm thấy khách hàng phù hợp với từ khóa: " + tuKhoa);
 		}
 	}
+	public static void xuatHoaDonTheoID(String idKhachHang) {
+    	try (BufferedReader br = new BufferedReader(new FileReader("HoaDon.txt"))) {
+       		String line;
+        	
+
+        	while ((line = br.readLine()) != null) {
+            	line = line.trim();
+            	if (line.isEmpty()) continue; // bỏ qua dòng trống
+
+            	String[] parts = line.split(";");
+            	if (parts.length < 12) continue; // tránh lỗi nếu thiếu dữ liệu
+
+            
+            	String khachHang = parts[0].trim();
+           	 	String maHoaDon = parts[1].trim();
+            	String ngayIn = parts[2].trim();
+            	String loaiKH = parts[3].trim();
+            	String sach = parts[4].trim();
+            	String soLuong = parts[5].trim();
+            	String donGia = parts[6].trim();
+            	String tong = parts[7].trim();
+            	String ctkm = parts[8].trim();
+            	String giamGia = parts[9].trim();
+            	String sauGiam = parts[10].trim();
+            	String vat = parts[11].trim();
+
+            	if (khachHang.equals(idKhachHang)) {
+                	
+                	System.out.println("=========================================");
+                	System.out.println("KHÁCH HÀNG: " + khachHang);
+                	System.out.println("MÃ HÓA ĐƠN: " + maHoaDon);
+                	System.out.println("NGÀY IN: " + ngayIn);
+                	System.out.println("LOẠI KHÁCH HÀNG: " + loaiKH);
+                	System.out.println("SÁCH: " + sach);
+                	System.out.println("SỐ LƯỢNG: " + soLuong);
+                	System.out.println("ĐƠN GIÁ: " + donGia + " VND");
+                	System.out.println("TỔNG: " + tong + " VND");
+                	System.out.println("CTKM: " + ctkm);
+                	System.out.println("GIẢM GIÁ: " + giamGia + " VND");
+                	System.out.println("SAU GIẢM: " + sauGiam + " VND");
+                	System.out.println("VAT: " + vat);
+                	System.out.println("=========================================");
+                	return; 
+           		}
+        	}
+
+            	System.out.println("❌ Không tìm thấy hóa đơn của khách hàng: " + idKhachHang);
+        		
+
+    		}catch (IOException e) {
+        		System.out.println("❌ Lỗi đọc file hoadon.txt: " + e.getMessage());
+    		}
+	}
+
 }
+
+
+    
+
