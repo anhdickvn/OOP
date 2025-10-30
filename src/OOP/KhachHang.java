@@ -1,4 +1,5 @@
 package OOP;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -8,7 +9,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class KhachHang extends ConNguoi {
-	private int status; 
+	private int status;
 	private String idKhachHang;
 	private String hoTen;
 	private String ngaySinh;
@@ -73,17 +74,16 @@ public class KhachHang extends ConNguoi {
 	}
 
 	public void capNhatUuDai() {
-		if (status == 1) { // Khách hàng thường
+		if (status == 1) {
 			this.diemTichLuy = (int) (tongChiTieu / 10000);
-		} else if (status == 2) { // Khách hàng VIP
-			this.diemTichLuy = (int) ((tongChiTieu / 10000) * 2); // VIP nhân đôi
+		} else if (status == 2) {
+			this.diemTichLuy = (int) ((tongChiTieu / 10000) * 2);
 		}
 		this.mucGiamGia = diemTichLuy / 100.0;
 		if (mucGiamGia > 15)
-			mucGiamGia = 15; // giới hạn tối đa 15%
+			mucGiamGia = 15;
 	}
 
-	// ===== Đọc file =====
 	public static KhachHang[] docFile() {
 		KhachHang[] ds = new KhachHang[0];
 		try (BufferedReader br = new BufferedReader(new FileReader("kh.txt"))) {
@@ -99,20 +99,21 @@ public class KhachHang extends ConNguoi {
 				ds[ds.length - 1] = kh;
 			}
 		} catch (IOException e) {
-			System.out.println("❌ Lỗi đọc file: " + e.getMessage());
+			System.out.println("Lỗi đọc file: " + e.getMessage());
 		}
 		return ds;
 	}
-    public static void ghiFile(KhachHang[] ds) {
-        try (PrintWriter pw = new PrintWriter(new FileWriter("kh.txt"))) {
-            for (KhachHang kh : ds) {
-                pw.printf("%d;%s;%s;%s;%s;%s;%.0f%n", kh.getStatus(), kh.getIdKhachHang(), kh.getHoTen(),
-                        kh.getNgaySinh(), kh.getDiaChi(), kh.getSoDienThoai(), kh.getTongChiTieu());
-            }
-        } catch (IOException e) {
-            System.out.println("❌ Lỗi ghi file: " + e.getMessage());
-        }
-    }
+
+	public static void ghiFile(KhachHang[] ds) {
+		try (PrintWriter pw = new PrintWriter(new FileWriter("kh.txt"))) {
+			for (KhachHang kh : ds) {
+				pw.printf("%d;%s;%s;%s;%s;%s;%.0f%n", kh.getStatus(), kh.getIdKhachHang(), kh.getHoTen(),
+						kh.getNgaySinh(), kh.getDiaChi(), kh.getSoDienThoai(), kh.getTongChiTieu());
+			}
+		} catch (IOException e) {
+			System.out.println("❌ Lỗi ghi file: " + e.getMessage());
+		}
+	}
 
 	public static void xuat() {
 		KhachHang[] ds = docFile();
@@ -134,144 +135,190 @@ public class KhachHang extends ConNguoi {
 		System.out.println(
 				"===============================================================================================================================");
 	}
-	   // ===== Thêm khách hàng =====
-    public static void them() {
-        Scanner sc = new Scanner(System.in);
-        KhachHang[] ds = docFile();
-        System.out.print("Nhập ID khách hàng: ");
-        String id = sc.nextLine();
-        for (KhachHang kh : ds) {
-            if (kh.getIdKhachHang().equalsIgnoreCase(id)) {
-                System.out.println("⚠️ ID đã tồn tại!");
-                return;
-            }
-        }
-        System.out.print("Họ tên: "); String ten = sc.nextLine();
-        System.out.print("Ngày sinh: "); String ns = sc.nextLine();
-        System.out.print("Địa chỉ: "); String dc = sc.nextLine();
-        System.out.print("Số điện thoại: "); String sdt = sc.nextLine();
-        System.out.print("Trạng thái (1: Thường, 2: VIP): "); int st = Integer.parseInt(sc.nextLine());
-        System.out.print("Tổng chi tiêu: "); double tong = Double.parseDouble(sc.nextLine());
-        KhachHang khMoi = new KhachHang(st, id, ten, ns, dc, sdt, tong);
-        ds = Arrays.copyOf(ds, ds.length + 1);
-        ds[ds.length - 1] = khMoi;
-        ghiFile(ds);
-        System.out.println("✅ Đã thêm khách hàng mới!");
-    }
 
-    // ===== Sửa khách hàng =====
-    public static void sua() {
-        Scanner sc = new Scanner(System.in);
-        KhachHang[] ds = docFile();
-        System.out.print("Nhập ID khách hàng cần sửa: ");
-        String id = sc.nextLine();
-        boolean found = false;
-        for (KhachHang kh : ds) {
-            if (kh.getIdKhachHang().equalsIgnoreCase(id)) {
-                found = true;
-                System.out.println("Nhập thông tin mới (bỏ trống nếu không thay đổi):");
-                System.out.print("Họ tên: "); String ten = sc.nextLine();
-                if (!ten.isEmpty()) kh.setHoTen(ten);
-                System.out.print("Ngày sinh: "); String ns = sc.nextLine();
-                if (!ns.isEmpty()) kh.setNgaySinh(ns);
-                System.out.print("Địa chỉ: "); String dc = sc.nextLine();
-                if (!dc.isEmpty()) kh.setDiaChi(dc);
-                System.out.print("Số điện thoại: "); String sdt = sc.nextLine();
-                if (!sdt.isEmpty()) kh.setSoDienThoai(sdt);
-                System.out.print("Trạng thái (1: Thường, 2: VIP): "); String st = sc.nextLine();
-                if (!st.isEmpty()) kh.setStatus(Integer.parseInt(st));
-                System.out.print("Tổng chi tiêu: "); String tong = sc.nextLine();
-                if (!tong.isEmpty()) kh.setTongChiTieu(Double.parseDouble(tong));
-                kh.capNhatUuDai();
-                break;
-            }
-        }
-        if (found) {
-            ghiFile(ds);
-            System.out.println("✅ Đã sửa thông tin khách hàng!");
-        } else {
-            System.out.println("❌ Không tìm thấy khách hàng!");
-        }
-    }
-
-    // ===== Xóa khách hàng =====
-    public static void xoa() {
-        Scanner sc = new Scanner(System.in);
-        KhachHang[] ds = docFile();
-        System.out.print("Nhập ID khách hàng cần xóa: ");
-        String id = sc.nextLine();
-        boolean found = false;
-        KhachHang[] dsMoi = new KhachHang[0];
-        for (KhachHang kh : ds) {
-            if (kh.getIdKhachHang().equalsIgnoreCase(id)) { found = true; continue; }
-            dsMoi = Arrays.copyOf(dsMoi, dsMoi.length + 1);
-            dsMoi[dsMoi.length - 1] = kh;
-        }
-        if (found) {
-            ghiFile(dsMoi);
-            System.out.println("✅ Đã xóa khách hàng!");
-        } else System.out.println("❌ Không tìm thấy khách hàng!");
-    }
-
-    // ===== Tìm kiếm khách hàng =====
-    public static void timKiem() {
-        Scanner sc = new Scanner(System.in);
-        KhachHang[] ds = docFile();
-        System.out.print("Nhập từ khóa (ID hoặc họ tên): ");
-        String key = sc.nextLine().toLowerCase();
-        boolean found = false;
-        for (KhachHang kh : ds) {
-            if (kh.getIdKhachHang().equalsIgnoreCase(key) || kh.getHoTen().equalsIgnoreCase(key)) {
-                found = true;
-                String loai = (kh.getStatus() == 1) ? "Thường" : "VIP";
-                System.out.printf("👉 %s | %s | %s | %s | %s | %s | %,10.0f | %d | %.2f%%%n",
-                        kh.getIdKhachHang(), kh.getHoTen(), kh.getNgaySinh(), kh.getDiaChi(),
-                        kh.getSoDienThoai(), loai, kh.getTongChiTieu(),
-                        kh.getDiemTichLuy(), kh.getMucGiamGia());
-            }
-        }
-        if (!found) System.out.println("❌ Không tìm thấy khách hàng!");
-    }
-    public static void Menu () {
+	public static void them() {
 		Scanner sc = new Scanner(System.in);
-		int chon;
-		do {
-			System.out.println("\n========= MENU QUẢN LÝ KHÁCH HÀNG =========");
-			System.out.println("1. Xem danh sách khách hàng");
-			System.out.println("2. Thêm khách hàng");
-			System.out.println("3. Sửa thông tin khách hàng");
-			System.out.println("4. Xóa khách hàng");
-			System.out.println("5. Tìm kiếm khách hàng");
-			System.out.println("0. Thoát");
-			System.out.print("➡ Nhập lựa chọn: ");
-			chon = Integer.parseInt(sc.nextLine());
-
-			switch (chon) {
-				case 1:
-					xuat();
-					break;
-				case 2:
-					them();
-					break;
-				case 3:
-					sua();
-					break;
-				case 4:
-					xoa();
-					break;
-				case 5:
-					timKiem();
-					break;
-				case 0:
-					System.out.println("👋 Thoát chương trình!");
-					break;
-				default:
-					System.out.println("❌ Lựa chọn không hợp lệ!");
+		KhachHang[] ds = docFile();
+		System.out.print("Nhập ID khách hàng: ");
+		String id = sc.nextLine();
+		for (KhachHang kh : ds) {
+			if (kh.getIdKhachHang().equalsIgnoreCase(id)) {
+				System.out.println("ID đã tồn tại!");
+				return;
 			}
-		} while (chon != 0);
+		}
+		System.out.print("Họ tên: ");
+		String ten = sc.nextLine();
+		System.out.print("Ngày sinh: ");
+		String ns = sc.nextLine();
+		System.out.print("Địa chỉ: ");
+		String dc = sc.nextLine();
+		System.out.print("Số điện thoại: ");
+		String sdt = sc.nextLine();
+		System.out.print("Trạng thái (1: Thường, 2: VIP): ");
+		int st = Integer.parseInt(sc.nextLine());
+		System.out.print("Tổng chi tiêu: ");
+		double tong = Double.parseDouble(sc.nextLine());
+		KhachHang khMoi = new KhachHang(st, id, ten, ns, dc, sdt, tong);
+		ds = Arrays.copyOf(ds, ds.length + 1);
+		ds[ds.length - 1] = khMoi;
+		ghiFile(ds);
+		System.out.println("Đã thêm khách hàng mới!");
 	}
-	public static void main(String[] args) {
-		Menu();
+
+	public static void suaTheoID() {
+		Scanner sc = new Scanner(System.in);
+		KhachHang[] ds = docFile();
+		System.out.println("Nhập ID khách hàng: ");
+		String idSua = sc.nextLine();
+
+		for (KhachHang kh : ds) {
+			if (kh.getIdKhachHang().equalsIgnoreCase(idSua)) {
+				while (true) {
+					System.out.println("\n===== CHỈNH SỬA THÔNG TIN KHÁCH HÀNG =====");
+					System.out.println("1. Họ tên       (Hiện tại: " + kh.getHoTen() + ")");
+					System.out.println("2. Ngày sinh    (Hiện tại: " + kh.getNgaySinh() + ")");
+					System.out.println("3. Địa chỉ      (Hiện tại: " + kh.getDiaChi() + ")");
+					System.out.println("4. Số điện thoại(Hiện tại: " + kh.getSoDienThoai() + ")");
+					System.out.println("5. Loại  (Hiện tại: " + (kh.getStatus() == 1 ? "Thường" : "VIP") + ")");
+					System.out.println("6. Tổng chi tiêu(Hiện tại: " + kh.getTongChiTieu() + ")");
+					System.out.println("0. 💾 Lưu và thoát");
+					System.out.print("👉 Chọn mục bạn muốn sửa (0–6): ");
+
+					String chon = sc.nextLine();
+
+					switch (chon) {
+					case "1" -> {
+						System.out.print("Nhập họ tên mới: ");
+						kh.setHoTen(sc.nextLine());
+					}
+					case "2" -> {
+						System.out.print("Nhập ngày sinh mới: ");
+						kh.setNgaySinh(sc.nextLine());
+					}
+					case "3" -> {
+						System.out.print("Nhập địa chỉ mới: ");
+						kh.setDiaChi(sc.nextLine());
+					}
+					case "4" -> {
+						System.out.print("Nhập số điện thoại mới: ");
+						kh.setSoDienThoai(sc.nextLine());
+					}
+					case "5" -> {
+						System.out.print("Nhập trạng thái mới (1: Thường, 2: VIP): ");
+						kh.setStatus(Integer.parseInt(sc.nextLine()));
+					}
+					case "6" -> {
+						System.out.print("Nhập tổng chi tiêu mới: ");
+						kh.setTongChiTieu(Double.parseDouble(sc.nextLine()));
+					}
+					case "0" -> {
+						System.out.println("💾 Đang lưu dữ liệu...");
+						kh.capNhatUuDai();
+						ghiFile(ds);
+						System.out.println("✅ Đã cập nhật thông tin khách hàng!");
+						return; // Thoát toàn hàm, không in ❌
+					}
+					default -> System.out.println("❌ Lựa chọn không hợp lệ!");
+					}
+				}
+			}
+		}
+
+		System.out.println("❌ Không tìm thấy khách hàng có ID: " + idSua);
+	}
+
+	public static void ThemKhachHang() {
+		Scanner sc = new Scanner(System.in);
+		System.out.print("Nhập số lượng khách hàng muốn thêm: ");
+		int n = Integer.parseInt(sc.nextLine());
+
+		try (FileWriter fw = new FileWriter("kh.txt", true); PrintWriter pw = new PrintWriter(fw)) {
+
+			for (int i = 0; i < n; i++) {
+				System.out.println("\n--- Nhập khách hàng thứ " + (i + 1) + " ---");
+				System.out.print("ID khách hàng: ");
+				String id = sc.nextLine();
+				System.out.print("Họ tên: ");
+				String hoTen = sc.nextLine();
+				System.out.print("Ngày sinh: ");
+				String ngaySinh = sc.nextLine();
+				System.out.print("Địa chỉ: ");
+				String diaChi = sc.nextLine();
+				System.out.print("Số điện thoại: ");
+				String soDT = sc.nextLine();
+				System.out.print("Trạng thái (1: Thường, 2: VIP): ");
+				int status = Integer.parseInt(sc.nextLine());
+				System.out.print("Tổng chi tiêu: ");
+				double tongChiTieu = Double.parseDouble(sc.nextLine());
+
+				// Ghi dòng mới vào file theo định dạng sẵn
+				pw.printf("%d;%s;%s;%s;%s;%s;%.0f%n", status, id, hoTen, ngaySinh, diaChi, soDT, tongChiTieu);
+			}
+
+			System.out.println("✅ Ghi file thành công vào kh.txt");
+		} catch (IOException e) {
+			System.out.println("❌ Lỗi khi ghi file: " + e.getMessage());
+		}
+	}
+
+	public static void xoaTheoID(String id) {
+		KhachHang[] ds = docFile(); // đọc danh sách khách hàng
+		boolean found = false;
+		KhachHang[] dsMoi = new KhachHang[0];
+
+		for (KhachHang kh : ds) {
+			if (kh.getIdKhachHang().equalsIgnoreCase(id)) {
+				found = true;
+				System.out.println("✅ Đã xóa khách hàng: " + kh.getHoTen());
+				continue; // bỏ qua khách hàng này
+			}
+			dsMoi = Arrays.copyOf(dsMoi, dsMoi.length + 1);
+			dsMoi[dsMoi.length - 1] = kh;
+		}
+
+		if (found) {
+			ghiFile(dsMoi); // ghi lại file sau khi xóa
+		} else {
+			System.out.println("❌ Không tìm thấy khách hàng có ID: " + id);
+		}
+	}
+
+	public static void timKiem() {
+		Scanner sc = new Scanner(System.in);
+		System.out.print("Nhập thông tin muốn tìm (ID / Họ tên / SĐT / Địa chỉ / Loại KH): ");
+		String tuKhoa = sc.nextLine().toLowerCase();
+		KhachHang[] ds = docFile();
+
+		boolean timThay = false;
+
+		for (KhachHang kh : ds) {
+			String loai = (kh.getStatus() == 1) ? "Thường" : "VIP";
+
+			boolean timTheoID = kh.getIdKhachHang().equalsIgnoreCase(tuKhoa);
+			boolean timTheoTen = kh.getHoTen().toLowerCase().contains(tuKhoa);
+			boolean timTheoSdt = kh.getSoDienThoai().toLowerCase().contains(tuKhoa);
+			boolean timTheoDiaChi = kh.getDiaChi().toLowerCase().contains(tuKhoa);
+			boolean timTheoLoai = loai.toLowerCase().contains(tuKhoa);
+
+			if (timTheoID || timTheoTen || timTheoSdt || timTheoDiaChi || timTheoLoai) {
+				timThay = true;
+				System.out.println("──────────────────────────────────────────────────────────────");
+				System.out.println("🧾 ID Khách hàng: " + kh.getIdKhachHang());
+				System.out.println("👤 Họ tên: " + kh.getHoTen());
+				System.out.println("📅 Ngày sinh: " + kh.getNgaySinh());
+				System.out.println("🏠 Địa chỉ: " + kh.getDiaChi());
+				System.out.println("📞 Số điện thoại: " + kh.getSoDienThoai());
+				System.out.println("💳 Loại khách hàng: " + loai);
+				System.out.printf("💰 Tổng chi tiêu: %, .0f VND\n", kh.getTongChiTieu());
+				System.out.println("⭐ Điểm tích lũy: " + kh.getDiemTichLuy());
+				System.out.printf("🏷️ Mức giảm giá: %.2f%%\n", kh.getMucGiamGia());
+				System.out.println("──────────────────────────────────────────────────────────────");
+			}
+		}
+
+		if (!timThay) {
+			System.out.println("❌ Không tìm thấy khách hàng phù hợp với từ khóa: " + tuKhoa);
+		}
 	}
 }
-
