@@ -82,6 +82,8 @@ public class OOP {
 				break;
 
 			case "khachhang":
+				System.out.print("Nhập ID khách hàng: ");
+				String IDKH = sc.nextLine();
 				int chonKH;
 				do {
 					System.out.println("\n===== MENU KHÁCH HÀNG =====");
@@ -109,7 +111,8 @@ public class OOP {
 
 					case 4:
 						System.out.println("4. Thay đổi thông tin cá nhân");
-						KhachHang.suaTheoID();	
+						KhachHang.suaTheoID(IDKH);	
+							
 					case 0:
 						System.out.println("→ Quay lại màn hình đăng nhập...");
 						break;
