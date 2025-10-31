@@ -149,7 +149,6 @@ public class OOP {
 						break;
 
 					case 3:
-						System.out.println("→ Chức năng xem hóa đơn cá nhân (đọc từ file hoadon.txt)");
 						KhachHang.xuatHoaDonTheoID(ID);
 						break;
 
