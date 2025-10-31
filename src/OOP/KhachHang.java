@@ -356,58 +356,54 @@ public class KhachHang extends ConNguoi {
 		}
 	}
 	public static void xuatHoaDonTheoID(String idKhachHang) {
-    	try (BufferedReader br = new BufferedReader(new FileReader("HoaDon.txt"))) {
-       		String line;
-        	
+    try (BufferedReader br = new BufferedReader(new FileReader("HoaDon.txt"))) {
+        String line;
 
-        	while ((line = br.readLine()) != null) {
-            	line = line.trim();
-            	if (line.isEmpty()) continue; // bỏ qua dòng trống
+        while ((line = br.readLine()) != null) {
+            line = line.trim();
+            if (line.isEmpty()) continue;
 
-            	String[] parts = line.split(";");
-            	if (parts.length < 12) continue; // tránh lỗi nếu thiếu dữ liệu
+            String[] parts = line.split(";");
+            if (parts.length < 12) continue;
 
-            
-            	String khachHang = parts[0].trim();
-           	 	String maHoaDon = parts[1].trim();
-            	String ngayIn = parts[2].trim();
-            	String loaiKH = parts[3].trim();
-            	String sach = parts[4].trim();
-            	String soLuong = parts[5].trim();
-            	String donGia = parts[6].trim();
-            	String tong = parts[7].trim();
-            	String ctkm = parts[8].trim();
-            	String giamGia = parts[9].trim();
-            	String sauGiam = parts[10].trim();
-            	String vat = parts[11].trim();
+            String maHoaDon = parts[0].trim();
+            String khachHang = parts[1].trim();
+            String maSach = parts[2].trim();
+            String tenSach = parts[3].trim();
+            String soLuong = parts[4].trim();
+            String donGia = parts[5].trim();
+            String tong = parts[6].trim();
+            String giamGia = parts[7].trim();
+            String sauGiam = parts[8].trim();
+            String ngayIn = parts[9].trim();
+            String loaiKH = parts[10].trim();
+            String ctkm = parts[11].trim();
 
-            	if (khachHang.equals(idKhachHang)) {
-                	
-                	System.out.println("=========================================");
-                	System.out.println("KHÁCH HÀNG: " + khachHang);
-                	System.out.println("MÃ HÓA ĐƠN: " + maHoaDon);
-                	System.out.println("NGÀY IN: " + ngayIn);
-                	System.out.println("LOẠI KHÁCH HÀNG: " + loaiKH);
-                	System.out.println("SÁCH: " + sach);
-                	System.out.println("SỐ LƯỢNG: " + soLuong);
-                	System.out.println("ĐƠN GIÁ: " + donGia + " VND");
-                	System.out.println("TỔNG: " + tong + " VND");
-                	System.out.println("CTKM: " + ctkm);
-                	System.out.println("GIẢM GIÁ: " + giamGia + " VND");
-                	System.out.println("SAU GIẢM: " + sauGiam + " VND");
-                	System.out.println("VAT: " + vat);
-                	System.out.println("=========================================");
-                	return; 
-           		}
-        	}
+            if (khachHang.equals(idKhachHang)) {
+                System.out.println("=========================================");
+                System.out.println("MÃ HÓA ĐƠN: " + maHoaDon);
+                System.out.println("KHÁCH HÀNG: " + khachHang);
+                System.out.println("MÃ SÁCH: " + maSach);
+                System.out.println("TÊN SÁCH: " + tenSach);
+                System.out.println("SỐ LƯỢNG: " + soLuong);
+                System.out.println("ĐƠN GIÁ: " + donGia + " VND");
+                System.out.println("TỔNG: " + tong + " VND");
+                System.out.println("GIẢM GIÁ: " + giamGia + " VND");
+                System.out.println("SAU GIẢM: " + sauGiam + " VND");
+                System.out.println("NGÀY IN: " + ngayIn);
+                System.out.println("LOẠI KHÁCH HÀNG: " + loaiKH);
+                System.out.println("CTKM: " + ctkm);
+                System.out.println("=========================================");
+                return;
+            }
+        }
 
-            	System.out.println("❌ Không tìm thấy hóa đơn của khách hàng: " + idKhachHang);
-        		
+        System.out.println("❌ Không tìm thấy hóa đơn của khách hàng: " + idKhachHang);
 
-    		}catch (IOException e) {
-        		System.out.println("❌ Lỗi đọc file hoadon.txt: " + e.getMessage());
-    		}
-	}
+    } catch (IOException e) {
+        System.out.println("❌ Lỗi đọc file HoaDon.txt: " + e.getMessage());
+    }
+}
 
 }
 
